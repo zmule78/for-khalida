@@ -33,15 +33,18 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="index.html" class="logo">faizlida 💛</a>
-        <ul class="nav-links">
-            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
-            <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
-            <li><a href="messages.html" class="active"><i class="fas fa-envelope"></i> Messages</a></li>
-            <li><a href="game.html"><i class="fas fa-gamepad"></i> Games</a></li>
-        </ul>
+        <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">faizlida <i class="fas fa-heart" style="font-size:0.6em;color:#e8a000"></i></div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
+                <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
+                <li><a href="messages.html" class="active"><i class="fas fa-envelope"></i> Messages</a></li>
+                <li><a href="game.html"><i class="fas fa-gamepad"></i> Games</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+        </div>
     </nav>
     <section class="msg-hero">
         <h1>💌 Pesan Cinta 💌</h1>
@@ -132,6 +135,7 @@
     }
     loadRSS();
     </script>
+        <script src="script.js"></script>
     <script src="music.js"></script>
 </body>
         <script src="bg-animation.js"></script>
