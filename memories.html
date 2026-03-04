@@ -12,17 +12,99 @@
         .mem-hero p { font-size: 1.2em; color: #DAA520; max-width: 600px; margin: 10px auto 0; }
         .gallery-section { max-width: 1000px; margin: 0 auto; padding: 50px 20px; }
         .gallery-section h2 { text-align: center; color: #B8860B; font-size: 1.8em; margin-bottom: 30px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .gallery-item { position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(255,215,0,0.15); border: 2px solid rgba(255,215,0,0.2); transition: transform 0.3s; cursor: pointer; background: #FFF8DC; }
-        .gallery-item:hover { transform: scale(1.03); }
-        .gallery-item img { width: 100%; height: 250px; object-fit: cover; display: block; }
-        .gallery-item .caption { padding: 16px; text-align: center; }
-        .gallery-item .caption h3 { color: #B8860B; font-size: 1em; margin-bottom: 4px; }
-        .gallery-item .caption p { color: #888; font-size: 0.85em; }
+        /* === FIXED GALLERY GRID === */
+        .gallery-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+            gap: 24px !important;
+        }
+        .gallery-item {
+            position: relative !important;
+            border-radius: 20px !important;
+            overflow: hidden !important;
+            box-shadow: 0 8px 30px rgba(255,215,0,0.15) !important;
+            border: 2px solid rgba(255,215,0,0.2) !important;
+            transition: all 0.4s ease !important;
+            cursor: pointer !important;
+            background: #FFFDF5 !important;
+            aspect-ratio: auto !important;
+            display: block !important;
+            font-size: 1rem !important;
+            color: inherit !important;
+            justify-content: unset !important;
+            align-items: unset !important;
+            flex-direction: unset !important;
+        }
+        .gallery-item:hover {
+            transform: translateY(-8px) scale(1.02) !important;
+            box-shadow: 0 16px 40px rgba(255,215,0,0.25) !important;
+            border-color: #FFD700 !important;
+        }
+        .gallery-item img {
+            width: 100% !important;
+            height: 280px !important;
+            object-fit: cover !important;
+            display: block !important;
+            transition: transform 0.5s ease !important;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.08) !important;
+        }
+        .gallery-item .caption {
+            padding: 18px 20px !important;
+            text-align: center !important;
+            background: #FFFDF5 !important;
+            position: relative !important;
+        }
+        .gallery-item .caption h3 {
+            color: #B8860B !important;
+            font-size: 1.05em !important;
+            margin-bottom: 6px !important;
+            font-family: 'Dancing Script', cursive !important;
+            font-weight: 700 !important;
+        }
+        .gallery-item .caption p {
+            color: #999 !important;
+            font-size: 0.85em !important;
+            line-height: 1.5 !important;
+        }
+        /* Overlay on hover */
+        .gallery-item .img-wrap {
+            position: relative;
+            overflow: hidden;
+        }
+        .gallery-item .img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(184,134,11,0.5) 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 16px;
+        }
+        .gallery-item:hover .img-overlay {
+            opacity: 1;
+        }
+        .img-overlay i {
+            color: white;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
         .memory-quote { max-width: 700px; margin: 40px auto; text-align: center; padding: 30px; background: rgba(255,248,220,0.95); border-radius: 20px; border: 2px dashed #FFD700; }
         .memory-quote p { color: #B8860B; font-size: 1.2em; font-style: italic; line-height: 1.6; }
         .upload-hint { text-align: center; padding: 40px 20px; color: #DAA520; font-size: 1em; }
-        @media (max-width: 768px) { .mem-hero h1 { font-size: 2em; } .gallery-grid { grid-template-columns: 1fr; } }
+        /* Lightbox */
+        .mem-lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; cursor: pointer; }
+        .mem-lightbox.active { display: flex; }
+        .mem-lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 16px; object-fit: contain; box-shadow: 0 0 40px rgba(255,215,0,0.3); }
+        .mem-lightbox .close-lb { position: absolute; top: 20px; right: 30px; color: white; font-size: 2rem; cursor: pointer; }
+        @media (max-width: 768px) {
+            .mem-hero h1 { font-size: 2em; }
+            .gallery-grid { grid-template-columns: 1fr !important; }
+            .gallery-item img { height: 220px !important; }
+        }
     </style>
 </head>
 <body>
@@ -60,50 +142,81 @@
     <section class="gallery-section">
         <h2>✨ Momen Berharga ✨</h2>
         <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="https://lh3.googleusercontent.com/d/1REQy4EG5Wr3xk3a6fUoT-7n_LaaMVEHf" alt="Khalida tersenyum manis">
+
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <div class="img-wrap">
+                    <img src="https://lh3.googleusercontent.com/d/1REQy4EG5Wr3xk3a6fUoT-7n_LaaMVEHf" alt="Khalida tersenyum manis">
+                    <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
                 <div class="caption">
                     <h3>💛 Senyum Manismu</h3>
                     <p>Senyummu adalah hal terindah yang pernah aku lihat</p>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://lh3.googleusercontent.com/d/1sx6OYPyS6p-layLMPdutUzxNnQ_om5vV" alt="Momen kebersamaan">
+
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <div class="img-wrap">
+                    <img src="https://lh3.googleusercontent.com/d/1sx6OYPyS6p-layLMPdutUzxNnQ_om5vV" alt="Momen kebersamaan">
+                    <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
                 <div class="caption">
                     <h3>🌟 Cantiknya Kamu</h3>
                     <p>Setiap sisi dirimu selalu membuatku terpesona</p>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://lh3.googleusercontent.com/d/1i7xE9IfC5Mx6uepcuEgC4XDG_myR32eS" alt="Photo booth bersama">
+
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <div class="img-wrap">
+                    <img src="https://lh3.googleusercontent.com/d/1i7xE9IfC5Mx6uepcuEgC4XDG_myR32eS" alt="Photo booth bersama">
+                    <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
                 <div class="caption">
                     <h3>🌸 Photo Booth Kita</h3>
                     <p>Momen seru di photo booth, tawa kita abadi di sini</p>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://lh3.googleusercontent.com/d/1b-fmuP1KfwO691930IJNkZV5dKUf66qY" alt="Foto polaroid berdua">
+
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <div class="img-wrap">
+                    <img src="https://lh3.googleusercontent.com/d/1b-fmuP1KfwO691930IJNkZV5dKUf66qY" alt="Foto polaroid berdua">
+                    <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
                 <div class="caption">
                     <h3>☕ Polaroid Kita</h3>
                     <p>Kenangan manis yang terabadikan dalam selembar polaroid</p>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://lh3.googleusercontent.com/d/18zk4tL2wxbD7oAMG4yKG_jRUDhKr8k40" alt="Kolase kenangan">
+
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <div class="img-wrap">
+                    <img src="https://lh3.googleusercontent.com/d/18zk4tL2wxbD7oAMG4yKG_jRUDhKr8k40" alt="Kolase kenangan">
+                    <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
                 <div class="caption">
                     <h3>🌙 Momen Bersama</h3>
                     <p>Setiap detik bersamamu adalah kenangan yang tak ternilai</p>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://lh3.googleusercontent.com/d/1_ObqDTSRoJ-jYJqXHSAnUqq2rj8MVk7f" alt="Khalida cantik">
+
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <div class="img-wrap">
+                    <img src="https://lh3.googleusercontent.com/d/1_ObqDTSRoJ-jYJqXHSAnUqq2rj8MVk7f" alt="Khalida cantik">
+                    <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
                 <div class="caption">
                     <h3>🎁 Bidadariku</h3>
                     <p>Setiap hari bersamamu adalah hari spesial</p>
                 </div>
             </div>
+
         </div>
     </section>
+
+    <!-- Lightbox -->
+    <div class="mem-lightbox" id="memLightbox" onclick="closeLightbox()">
+        <span class="close-lb">&times;</span>
+        <img id="lbImg" src="" alt="">
+    </div>
 
     <div class="upload-hint">
         <i class="fas fa-camera" style="font-size:2em; margin-bottom:10px; display:block;"></i>
@@ -118,5 +231,15 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        function openLightbox(el) {
+            const img = el.querySelector('img');
+            document.getElementById('lbImg').src = img.src;
+            document.getElementById('memLightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('memLightbox').classList.remove('active');
+        }
+    </script>
 </body>
 </html>
