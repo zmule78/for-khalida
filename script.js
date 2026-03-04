@@ -1,81 +1,3 @@
-// ===== COUNTDOWN TIMER =====
-function updateCountdown() {
-    const startDate = new Date('2025-12-01T00:00:00+07:00');
-    const now = new Date();
-    const diff = now - startDate;
-
-    if (diff < 0) {
-        document.getElementById('days').textContent = '0';
-        document.getElementById('hours').textContent = '0';
-        document.getElementById('minutes').textContent = '0';
-        document.getElementById('seconds').textContent = '0';
-        return;
-    }
-
-    const totalSeconds = Math.floor(diff / 1000);
-    const days = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
-
-    if (daysEl) daysEl.textContent = days;
-    if (hoursEl) hoursEl.textContent = hours;
-    if (minutesEl) minutesEl.textContent = minutes;
-    if (secondsEl) secondsEl.textContent = seconds;
-}
-
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-// ===== SCROLL PROGRESS BAR =====
-const scrollProgress = document.getElementById('scrollProgress');
-if (scrollProgress) {
-    window.addEventListener('scroll', () => {
-        const total = document.documentElement.scrollHeight - window.innerHeight;
-        const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
-        scrollProgress.style.width = pct + '%';
-    });
-}
-
-// ===== SCROLL TO TOP =====
-const scrollTopBtn = document.getElementById('scrollTop');
-if (scrollTopBtn) {
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) scrollTopBtn.classList.add('visible');
-        else scrollTopBtn.classList.remove('visible');
-    });
-    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-}
-
-// ===== SCROLL REVEAL =====
-const fadeEls = document.querySelectorAll('.fade-in');
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-        if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 100);
-    });
-}, { threshold: 0.1 });
-fadeEls.forEach(el => revealObserver.observe(el));
-
-// ===== SPARKLE ON MOUSE =====
-document.addEventListener('mousemove', (e) => {
-    if (Math.random() > 0.92) {
-        const s = document.createElement('div');
-        const emojis = ['\u2728','\uD83D\uDC9B','\uD83C\uDF38','\u2B50','\u2726'];
-        s.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
-        s.style.cssText = 'position:fixed;left:'+e.clientX+'px;top:'+e.clientY+'px;pointer-events:none;font-size:'+(10+Math.random()*14)+'px;z-index:9999;animation:sparkleAnim 1s forwards;';
-        document.body.appendChild(s);
-        setTimeout(() => s.remove(), 1000);
-    }
-});
-const sparkleStyle = document.createElement('style');
-sparkleStyle.textContent = '@keyframes sparkleAnim { 0% { opacity:1; transform:scale(0) rotate(0); } 100% { opacity:0; transform:scale(1.5) rotate(180deg) translateY(-25px); } }';
-document.head.appendChild(sparkleStyle);
-
 // ===== HAMBURGER MENU =====
 const menuToggle = document.getElementById('menuToggle');
 const navMenu = document.getElementById('navMenu') || document.querySelector('.nav-links');
@@ -94,25 +16,20 @@ document.querySelectorAll('.nav-menu a, .nav-links a').forEach(a => {
     const ytPlayer = document.getElementById('ytPlayer');
     const MUSIC_KEY = 'faizlida_music';
     const YT_URL = 'https://www.youtube.com/embed/Bu70OmGc1fg?autoplay=1&loop=1&playlist=Bu70OmGc1fg&controls=0';
-
     function getMusicState() {
         try { return JSON.parse(localStorage.getItem(MUSIC_KEY)) || {}; } catch(e) { return {}; }
     }
     function setMusicState(state) {
         localStorage.setItem(MUSIC_KEY, JSON.stringify(state));
     }
-
     function startMusic() {
-        if (ytPlayer) {
-            ytPlayer.src = YT_URL;
-        }
+        if (ytPlayer) { ytPlayer.src = YT_URL; }
         setMusicState({ playing: true, startedAt: Date.now() });
         if (musicToggle) {
             musicToggle.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
             musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
         }
     }
-
     function stopMusic() {
         if (ytPlayer) ytPlayer.src = '';
         setMusicState({ playing: false });
@@ -121,9 +38,7 @@ document.querySelectorAll('.nav-menu a, .nav-links a').forEach(a => {
             musicToggle.innerHTML = '<i class="fas fa-music"></i>';
         }
     }
-
-    // On page load: resume music if it was playing
-    const state = getMusicState();
+    var state = getMusicState();
     if (state.playing && ytPlayer) {
         ytPlayer.src = YT_URL;
         if (musicToggle) {
@@ -131,48 +46,48 @@ document.querySelectorAll('.nav-menu a, .nav-links a').forEach(a => {
             musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
         }
     }
-
     if (musicToggle) {
-        musicToggle.addEventListener('click', () => {
-            const current = getMusicState();
-            if (current.playing) {
-                stopMusic();
-            } else {
-                startMusic();
-            }
+        musicToggle.addEventListener('click', function() {
+            var current = getMusicState();
+            if (current.playing) { stopMusic(); } else { startMusic(); }
         });
     }
 })();
 
 // ===== COUNTDOWN TIMER =====
 function updateCountdown() {
-    const start = new Date('2025-12-01T00:00:00');
-    const now = new Date();
-    const diff = now - start;
-    if (diff < 0) return;
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    const el = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
-    el('days', d); el('hours', h); el('minutes', m); el('seconds', s);
+    var start = new Date('2025-12-01T00:00:00+07:00');
+    var now = new Date();
+    var diff = now - start;
+    if (diff < 0) {
+        var setEl = function(id, v) { var e = document.getElementById(id); if(e) e.textContent = v; };
+        setEl('days', '0'); setEl('hours', '0'); setEl('minutes', '0'); setEl('seconds', '0');
+        return;
+    }
+    var totalSeconds = Math.floor(diff / 1000);
+    var d = Math.floor(totalSeconds / 86400);
+    var h = Math.floor((totalSeconds % 86400) / 3600);
+    var m = Math.floor((totalSeconds % 3600) / 60);
+    var s = totalSeconds % 60;
+    var setEl2 = function(id, v) { var e = document.getElementById(id); if(e) e.textContent = v; };
+    setEl2('days', d); setEl2('hours', h); setEl2('minutes', m); setEl2('seconds', s);
 }
 if (document.getElementById('days')) {
-    setInterval(updateCountdown, 1000);
     updateCountdown();
+    setInterval(updateCountdown, 1000);
 }
 
 // ===== TYPEWRITER EFFECT =====
-const typedName = document.getElementById('typedName');
+var typedName = document.getElementById('typedName');
 if (typedName) {
-    const text = 'Khalida';
-    let i = 0;
+    var text = 'Khalida';
+    var charIdx = 0;
     typedName.innerHTML = '';
-    const cursor = typedName.querySelector('.cursor');
+    var cursor = typedName.querySelector('.cursor');
     function typeChar() {
-        if (i < text.length) {
-            typedName.insertBefore(document.createTextNode(text[i]), cursor);
-            i++;
+        if (charIdx < text.length) {
+            typedName.insertBefore(document.createTextNode(text[charIdx]), cursor);
+            charIdx++;
             setTimeout(typeChar, 120);
         }
     }
@@ -180,7 +95,7 @@ if (typedName) {
 }
 
 // ===== AUTO-ROTATING LOVE QUOTES =====
-const loveQuotes = [
+var loveQuotes = [
     {text: "Hati hati di jalan yah.", author: "Faiz"},
     {text: "Makasih juga udah mau berbagi cerita. Saling belajar.", author: "Faiz"},
     {text: "Bismillaah, sehat sehatt, Allah lancariiin broo.", author: "Khalida"},
@@ -283,14 +198,14 @@ const loveQuotes = [
     {text: "It means a lot, ur time.", author: "Khalida"},
     {text: "Setiap detik bersamamu adalah keajaiban.", author: "F & K"}
 ];
-let quoteIndex = 0;
-const quoteEl = document.getElementById('quote-text');
-const authorEl = document.getElementById('quote-author');
+var quoteIndex = 0;
+var quoteEl = document.getElementById('quote-text');
+var authorEl = document.getElementById('quote-author');
 function showQuote(idx) {
     if (!quoteEl) return;
     quoteEl.style.opacity = '0';
     quoteEl.style.transform = 'translateY(10px)';
-    setTimeout(() => {
+    setTimeout(function() {
         quoteEl.textContent = '"' + loveQuotes[idx].text + '"';
         if (authorEl) authorEl.textContent = '- ' + loveQuotes[idx].author;
         quoteEl.style.opacity = '1';
@@ -300,23 +215,23 @@ function showQuote(idx) {
 if (quoteEl) {
     quoteEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     showQuote(0);
-    setInterval(() => { quoteIndex = (quoteIndex + 1) % loveQuotes.length; showQuote(quoteIndex); }, 4000);
+    setInterval(function() { quoteIndex = (quoteIndex + 1) % loveQuotes.length; showQuote(quoteIndex); }, 4000);
 }
 
 // ===== PARTICLE CANVAS =====
-const canvas = document.getElementById('particleCanvas');
+var canvas = document.getElementById('particleCanvas');
 if (canvas) {
-    const ctx = canvas.getContext('2d');
+    var ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    const particles = [];
-    const symbols = ['\u2764', '\u2726', '\u273F', '\u2605', '\uD83D\uDC9B', '\u2728'];
-    for (let i = 0; i < 35; i++) {
+    var particles = [];
+    var symbols = ['\u2764', '\u2726', '\u273F', '\u2605', '\uD83D\uDC9B', '\u2728'];
+    for (var pi = 0; pi < 35; pi++) {
         particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*14+8, speedY: Math.random()*0.6+0.2, speedX: Math.random()*0.4-0.2, opacity: Math.random()*0.4+0.1, symbol: symbols[Math.floor(Math.random()*symbols.length)], rotation: Math.random()*360, rotSpeed: (Math.random()-0.5)*1.5 });
     }
     function animateParticles() {
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        particles.forEach(p => {
+        particles.forEach(function(p) {
             ctx.save(); ctx.globalAlpha=p.opacity; ctx.font=p.size+'px serif'; ctx.translate(p.x,p.y); ctx.rotate(p.rotation*Math.PI/180); ctx.fillText(p.symbol,0,0); ctx.restore();
             p.y-=p.speedY; p.x+=p.speedX; p.rotation+=p.rotSpeed;
             if(p.y<-20){p.y=canvas.height+20;p.x=Math.random()*canvas.width;}
@@ -324,95 +239,95 @@ if (canvas) {
         requestAnimationFrame(animateParticles);
     }
     animateParticles();
-    window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+    window.addEventListener('resize',function(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
 }
 
 // ===== SCROLL PROGRESS BAR =====
-const scrollProgress = document.getElementById('scrollProgress');
+var scrollProgress = document.getElementById('scrollProgress');
 if (scrollProgress) {
-    window.addEventListener('scroll', () => {
-        const total = document.documentElement.scrollHeight - window.innerHeight;
-        const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+    window.addEventListener('scroll', function() {
+        var total = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = total > 0 ? (window.scrollY / total) * 100 : 0;
         scrollProgress.style.width = pct + '%';
     });
 }
 
 // ===== SCROLL TO TOP =====
-const scrollTopBtn = document.getElementById('scrollTop');
+var scrollTopBtn = document.getElementById('scrollTop');
 if (scrollTopBtn) {
-    window.addEventListener('scroll', () => {
+    window.addEventListener('scroll', function() {
         if (window.scrollY > 300) scrollTopBtn.classList.add('visible');
         else scrollTopBtn.classList.remove('visible');
     });
-    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    scrollTopBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 }
 
 // ===== SCROLL REVEAL =====
-const fadeEls = document.querySelectorAll('.fade-in');
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-        if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 100);
+var fadeEls = document.querySelectorAll('.fade-in');
+var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry, i) {
+        if (entry.isIntersecting) setTimeout(function() { entry.target.classList.add('visible'); }, i * 100);
     });
 }, { threshold: 0.1 });
-fadeEls.forEach(el => revealObserver.observe(el));
+fadeEls.forEach(function(el) { revealObserver.observe(el); });
 
 // ===== SPARKLE ON MOUSE =====
-document.addEventListener('mousemove', (e) => {
+document.addEventListener('mousemove', function(e) {
     if (Math.random() > 0.92) {
-        const s = document.createElement('div');
-        const emojis = ['\u2728','\uD83D\uDC9B','\uD83C\uDF38','\u2B50','\u2726'];
+        var s = document.createElement('div');
+        var emojis = ['\u2728','\uD83D\uDC9B','\uD83C\uDF38','\u2B50','\u2726'];
         s.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
         s.style.cssText = 'position:fixed;left:'+e.clientX+'px;top:'+e.clientY+'px;pointer-events:none;font-size:'+(10+Math.random()*14)+'px;z-index:9999;animation:sparkleAnim 1s forwards;';
         document.body.appendChild(s);
-        setTimeout(() => s.remove(), 1000);
+        setTimeout(function() { s.remove(); }, 1000);
     }
 });
-const sparkleStyle = document.createElement('style');
+var sparkleStyle = document.createElement('style');
 sparkleStyle.textContent = '@keyframes sparkleAnim { 0% { opacity:1; transform:scale(0) rotate(0); } 100% { opacity:0; transform:scale(1.5) rotate(180deg) translateY(-25px); } }';
 document.head.appendChild(sparkleStyle);
 
 // ===== FLOATING HEARTS ON CLICK =====
-document.addEventListener('click', (e) => {
-    for (let i = 0; i < 5; i++) {
-        const h = document.createElement('div');
-        const emojis = ['\uD83D\uDC9B','\u2764\uFE0F','\u2728','\uD83C\uDF38','\u2B50'];
-        h.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
-        const angle = Math.random()*Math.PI*2;
-        const dist = 30+Math.random()*60;
-        const dx = Math.cos(angle)*dist;
-        const dy = Math.sin(angle)*dist;
+document.addEventListener('click', function(e) {
+    for (var fi = 0; fi < 5; fi++) {
+        var h = document.createElement('div');
+        var emojis2 = ['\uD83D\uDC9B','\u2764\uFE0F','\u2728','\uD83C\uDF38','\u2B50'];
+        h.innerHTML = emojis2[Math.floor(Math.random()*emojis2.length)];
+        var angle = Math.random()*Math.PI*2;
+        var dist = 30+Math.random()*60;
+        var dx = Math.cos(angle)*dist;
+        var dy = Math.sin(angle)*dist;
         h.style.cssText = 'position:fixed;left:'+e.clientX+'px;top:'+e.clientY+'px;pointer-events:none;font-size:'+(14+Math.random()*10)+'px;z-index:9999;transition:all 0.8s ease-out;opacity:1;';
         document.body.appendChild(h);
-        requestAnimationFrame(() => { h.style.transform='translate('+dx+'px,'+dy+'px) scale(1.2)'; h.style.opacity='0'; });
-        setTimeout(() => h.remove(), 800);
+        (function(el, ddx, ddy) { requestAnimationFrame(function() { el.style.transform='translate('+ddx+'px,'+ddy+'px) scale(1.2)'; el.style.opacity='0'; }); })(h, dx, dy);
+        setTimeout(function(el) { return function() { el.remove(); }; }(h), 800);
     }
 });
 
 // ===== LIGHTBOX =====
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightboxImg');
+var lightbox = document.getElementById('lightbox');
+var lightboxImg = document.getElementById('lightboxImg');
 if (lightbox) {
-    document.querySelectorAll('.gallery-item img').forEach(img => {
-        img.parentElement.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.classList.add('active'); });
+    document.querySelectorAll('.gallery-item img').forEach(function(img) {
+        img.parentElement.addEventListener('click', function() { lightboxImg.src = img.src; lightbox.classList.add('active'); });
     });
-    lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
+    lightbox.addEventListener('click', function() { lightbox.classList.remove('active'); });
 }
 
 // ===== ANIMATED LOGO PULSE =====
-const logo = document.querySelector('.logo');
+var logo = document.querySelector('.logo');
 if (logo) {
     logo.style.transition = 'transform 0.3s ease';
-    setInterval(() => { logo.style.transform='scale(1.08)'; setTimeout(()=>{logo.style.transform='scale(1)';},300); }, 3000);
+    setInterval(function() { logo.style.transform='scale(1.08)'; setTimeout(function(){logo.style.transform='scale(1)';},300); }, 3000);
 }
 
 // ===== TILT EFFECT ON CARDS =====
-document.querySelectorAll('.stat-item, .glass-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX-rect.left)/rect.width-0.5;
-        const y = (e.clientY-rect.top)/rect.height-0.5;
+document.querySelectorAll('.stat-item, .glass-card').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = (e.clientX-rect.left)/rect.width-0.5;
+        var y = (e.clientY-rect.top)/rect.height-0.5;
         card.style.transform = 'perspective(600px) rotateY('+x*8+'deg) rotateX('+(-y*8)+'deg) scale(1.02)';
     });
-    card.addEventListener('mouseleave', () => { card.style.transform='perspective(600px) rotateY(0) rotateX(0) scale(1)'; });
+    card.addEventListener('mouseleave', function() { card.style.transform='perspective(600px) rotateY(0) rotateX(0) scale(1)'; });
     card.style.transition = 'transform 0.3s ease';
 });
