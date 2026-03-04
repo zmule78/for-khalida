@@ -21,26 +21,33 @@
         .memory-cell { width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2em; cursor: pointer; transition: transform 0.3s; color: transparent; }
         .memory-cell.flipped, .memory-cell.matched { color: #fff; background: #B8860B; }
         .memory-cell:hover { transform: scale(1.1); }
-        .quiz-option { display: block; width: 100%; max-width: 400px; margin: 8px auto; padding: 12px 20px; background: #FFF8DC; border: 2px solid #FFD700; border-radius: 12px; cursor: pointer; color: #B8860B; font-size: 1em; transition: all 0.2s; }
-        .quiz-option:hover { background: #FFD700; color: #fff; }
-        .quiz-option.correct { background: #4CAF50; color: #fff; border-color: #4CAF50; }
-        .quiz-option.wrong { background: #ff6b6b; color: #fff; border-color: #ff6b6b; }
         .score-display { font-size: 1.5em; color: #FFD700; font-weight: bold; margin: 10px 0; }
         .love-meter { width: 100%; max-width: 300px; height: 20px; background: #eee; border-radius: 10px; margin: 15px auto; overflow: hidden; }
         .love-meter-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FF69B4); border-radius: 10px; transition: width 0.5s; }
-        @media (max-width: 768px) { .game-hero h1 { font-size: 2em; } .memory-grid { grid-template-columns: repeat(4, 60px); } .memory-cell { width: 60px; height: 60px; font-size: 1.5em; } }
+        #catchCanvas { border-radius: 15px; display: block; margin: 15px auto; background: linear-gradient(180deg, #FFF8DC, #FFEFD5); border: 2px solid rgba(255,215,0,0.4); cursor: none; max-width: 100%; }
+        .catch-stats { display: flex; justify-content: center; gap: 25px; margin: 10px 0; font-size: 1.1em; color: #B8860B; font-weight: 600; }
+        .catch-stats span { background: #FFF8DC; padding: 5px 15px; border-radius: 20px; border: 1px solid #FFD700; }
+        @media (max-width: 768px) {
+            .game-hero h1 { font-size: 2em; }
+            .memory-grid { grid-template-columns: repeat(4, 60px); }
+            .memory-cell { width: 60px; height: 60px; font-size: 1.5em; }
+        }
     </style>
 </head>
 <body>
-    <!-- YouTube Audio (hidden) -->
-    <iframe id="ytPlayer" width="0" height="0" src="" allow="autoplay" style="display:none;"></iframe>
+
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop>
+        <source src="" type="audio/mpeg">
+    </audio>
+    <iframe id="ytPlayer" style="display:none" allow="autoplay"></iframe>
     <button class="music-control" id="musicToggle"><i class="fas fa-music"></i></button>
 
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">faizlida <i class="fas fa-heart" style="font-size:0.6em;color:#e8a000"></i>💛</div>
+            <div class="logo">faizlida <i class="fas fa-heart" style="font-size:0.6em;color:#e8a000"></i> 💛 </div>
             <button class="hamburger" id="menuToggle">
-                <span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
             </button>
             <ul class="nav-links">
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
@@ -58,6 +65,7 @@
     </section>
 
     <div class="games-container">
+
         <!-- Memory Match -->
         <div class="game-card">
             <h2>🧠 Memory Match Love</h2>
@@ -66,12 +74,12 @@
             <div class="game-area" id="memoryArea"></div>
         </div>
 
-        <!-- Love Quiz -->
+        <!-- Love Catch Game (NEW - replacing Love Quiz) -->
         <div class="game-card">
-            <h2>💖 Love Quiz</h2>
-            <p>Seberapa kenal kamu sama pasanganmu? Jawab pertanyaan ini!</p>
-            <button class="game-btn" onclick="startQuiz()">Mulai Quiz!</button>
-            <div class="game-area" id="quizArea"></div>
+            <h2>💕 Love Catch</h2>
+            <p>Tangkap hati yang jatuh sebanyak-banyaknya! Hindari hati yang patah 💔 Gerakkan mouse/sentuh layar!</p>
+            <button class="game-btn" onclick="startCatch()">Main Tangkap Hati!</button>
+            <div class="game-area" id="catchArea"></div>
         </div>
 
         <!-- Love Calculator -->
@@ -89,103 +97,159 @@
             <button class="game-btn" onclick="giveCompliment()">Kasih Pujian!</button>
             <div class="game-area" id="complimentArea"></div>
         </div>
+
     </div>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <p>Made with 💛 by Faiz for Khalida</p>
-            <p>Selamanya milikmu • 2025</p>
-        </div>
+    <footer>
+        <p>Made with <span style="color:#FFD700">❤️</span> by Faiz for Khalida</p>
+        <p style="font-size:0.9em; opacity:0.8">Selamanya milikmu • 2025</p>
     </footer>
 
-    <script src="script.js"></script>
     <script>
-        // YouTube Music Control
-        let ytPlaying = false;
-        const musicBtn = document.getElementById('musicToggle');
-        const ytPlayer = document.getElementById('ytPlayer');
-        if (musicBtn) {
-            musicBtn.addEventListener('click', () => {
-                if (!ytPlaying) {
-                    ytPlayer.src = 'https://www.youtube.com/embed/Bu70OmGc1fg?autoplay=1&loop=1&playlist=Bu70OmGc1fg&controls=0';
-                    ytPlaying = true;
-                    musicBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
-                } else {
-                    ytPlayer.src = '';
-                    ytPlaying = false;
-                    musicBtn.style.background = '';
-                }
-            });
-        }
+    // YouTube Music Control
+    let ytPlaying = false;
+    const musicBtn = document.getElementById('musicToggle');
+    const ytPlayer = document.getElementById('ytPlayer');
+    if (musicBtn) {
+        musicBtn.addEventListener('click', () => {
+            if (!ytPlaying) {
+                ytPlayer.src = 'https://www.youtube.com/embed/Bu70OmGc1fg?autoplay=1&loop=1&playlist=Bu70OmGc1fg&controls=0';
+                ytPlaying = true;
+                musicBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+            } else {
+                ytPlayer.src = '';
+                ytPlaying = false;
+                musicBtn.style.background = '';
+            }
+        });
+    }
 
-        // Memory Match Game
-        function startMemory() {
-            const emojis = ['💛','💛','❤️','❤️','🌹','🌹','🌟','🌟','🥰','🥰','💍','💍','🌸','🌸','🧸','🧸'];
-            emojis.sort(() => Math.random() - 0.5);
-            const area = document.getElementById('memoryArea');
-            area.innerHTML = '<div class="memory-grid">' + emojis.map((e, i) => `<div class="memory-cell" data-emoji="${e}" data-index="${i}" onclick="flipCard(this)">${e}</div>`).join('') + '</div>';
-        }
-        let flipped = [], matched = 0;
-        function flipCard(el) {
-            if (flipped.length >= 2 || el.classList.contains('flipped') || el.classList.contains('matched')) return;
-            el.classList.add('flipped');
-            flipped.push(el);
-            if (flipped.length === 2) {
-                if (flipped[0].dataset.emoji === flipped[1].dataset.emoji) {
-                    flipped.forEach(c => c.classList.add('matched'));
-                    matched += 2;
-                    flipped = [];
-                    if (matched === 16) setTimeout(() => alert('🎉 Kamu menang sayang! Kita memang cocok!'), 300);
-                } else {
-                    setTimeout(() => { flipped.forEach(c => c.classList.remove('flipped')); flipped = []; }, 800);
-                }
+    // Memory Match Game
+    function startMemory() {
+        const emojis = ['💛','💛','❤️','❤️','🌹','🌹','🌟','🌟','🥰','🥰','💍','💍','🌸','🌸','🧸','🧸'];
+        emojis.sort(() => Math.random() - 0.5);
+        const area = document.getElementById('memoryArea');
+        area.innerHTML = '<div class="memory-grid">' + emojis.map((e, i) => `<div class="memory-cell" data-emoji="${e}" data-index="${i}" onclick="flipCard(this)">${e}</div>`).join('') + '</div>';
+    }
+    let flipped = [], matched = 0;
+    function flipCard(el) {
+        if (flipped.length >= 2 || el.classList.contains('flipped') || el.classList.contains('matched')) return;
+        el.classList.add('flipped');
+        flipped.push(el);
+        if (flipped.length === 2) {
+            if (flipped[0].dataset.emoji === flipped[1].dataset.emoji) {
+                flipped.forEach(c => c.classList.add('matched'));
+                matched += 2;
+                flipped = [];
+                if (matched === 16) setTimeout(() => alert('🎉 Kamu menang sayang! Kita memang cocok!'), 300);
+            } else {
+                setTimeout(() => { flipped.forEach(c => c.classList.remove('flipped')); flipped = []; }, 800);
             }
         }
+    }
 
-        // Love Quiz
-        const quizData = [
-            { q: 'Apa warna favorit Khalida?', options: ['Biru','Pink','Kuning','Hijau'], correct: 1 },
-            { q: 'Kapan anniversary kita?', options: ['1 Desember','14 Februari','1 Januari','25 Desember'], correct: 0 },
-            { q: 'Makanan favorit Khalida?', options: ['Nasi Goreng','Mie Ayam','Sushi','Bakso'], correct: 0 },
-            { q: 'Apa panggilan sayang kita?', options: ['Beb','Sayang','Ida','Semua benar'], correct: 3 }
-        ];
-        let quizIndex = 0, quizScore = 0;
-        function startQuiz() { quizIndex = 0; quizScore = 0; showQuestion(); }
-        function showQuestion() {
-            if (quizIndex >= quizData.length) {
-                document.getElementById('quizArea').innerHTML = `<div class="score-display">🎉 Skor: ${quizScore}/${quizData.length}</div><p>${quizScore === quizData.length ? 'Sempurna! Kamu memang paling kenal aku 💛' : 'Ayo belajar lagi tentang aku ya sayang ✨'}</p>`;
-                return;
+    // Love Catch Game (replaces Love Quiz)
+    let catchAnim, catchScore, catchLives, catchItems, catchPadX, catchCanvas, catchCtx, catchRunning;
+    function startCatch() {
+        const area = document.getElementById('catchArea');
+        area.innerHTML = '<div class="catch-stats"><span id="catchScore">❤️ Skor: 0</span><span id="catchLives">💛 Nyawa: 5</span></div><canvas id="catchCanvas" width="400" height="350"></canvas>';
+        catchCanvas = document.getElementById('catchCanvas');
+        catchCtx = catchCanvas.getContext('2d');
+        catchScore = 0; catchLives = 5; catchItems = []; catchPadX = 175; catchRunning = true;
+        // Controls
+        catchCanvas.addEventListener('mousemove', e => {
+            const r = catchCanvas.getBoundingClientRect();
+            catchPadX = ((e.clientX - r.left) / r.width) * 400 - 25;
+        });
+        catchCanvas.addEventListener('touchmove', e => {
+            e.preventDefault();
+            const r = catchCanvas.getBoundingClientRect();
+            catchPadX = ((e.touches[0].clientX - r.left) / r.width) * 400 - 25;
+        }, {passive: false});
+        if (catchAnim) cancelAnimationFrame(catchAnim);
+        catchLoop();
+    }
+    function catchLoop() {
+        if (!catchRunning) return;
+        const ctx = catchCtx, W = 400, H = 350;
+        ctx.clearRect(0, 0, W, H);
+        // Spawn items
+        if (Math.random() < 0.03 + catchScore * 0.002) {
+            const bad = Math.random() < 0.25;
+            catchItems.push({ x: Math.random() * (W - 30), y: -30, speed: 2 + Math.random() * 2 + catchScore * 0.1, bad: bad, emoji: bad ? '💔' : ['❤️','💛','💕','🌹','💎','✨','🥰'][Math.floor(Math.random()*7)] });
+        }
+        // Draw & update items
+        for (let i = catchItems.length - 1; i >= 0; i--) {
+            const it = catchItems[i];
+            it.y += it.speed;
+            ctx.font = '28px serif';
+            ctx.fillText(it.emoji, it.x, it.y);
+            // Catch check
+            if (it.y > H - 50 && it.y < H - 10 && it.x > catchPadX - 10 && it.x < catchPadX + 60) {
+                if (it.bad) {
+                    catchLives--;
+                    document.getElementById('catchLives').textContent = '💛 Nyawa: ' + catchLives;
+                } else {
+                    catchScore++;
+                    document.getElementById('catchScore').textContent = '❤️ Skor: ' + catchScore;
+                }
+                catchItems.splice(i, 1); continue;
             }
-            const q = quizData[quizIndex];
-            document.getElementById('quizArea').innerHTML = `<p style="font-weight:600;margin:15px 0">${q.q}</p>` + q.options.map((o, i) => `<button class="quiz-option" onclick="answerQuiz(${i},${q.correct})">${o}</button>`).join('');
+            // Missed good item
+            if (it.y > H && !it.bad) {
+                catchLives--;
+                document.getElementById('catchLives').textContent = '💛 Nyawa: ' + catchLives;
+                catchItems.splice(i, 1); continue;
+            }
+            if (it.y > H) { catchItems.splice(i, 1); }
         }
-        function answerQuiz(selected, correct) {
-            const btns = document.querySelectorAll('.quiz-option');
-            btns.forEach((b, i) => { b.disabled = true; if (i === correct) b.classList.add('correct'); if (i === selected && selected !== correct) b.classList.add('wrong'); });
-            if (selected === correct) quizScore++;
-            quizIndex++;
-            setTimeout(showQuestion, 1000);
+        // Draw basket
+        ctx.font = '35px serif';
+        ctx.fillText('🧱', catchPadX, H - 15);
+        ctx.fillText('💐', catchPadX + 5, H - 20);
+        // Game over
+        if (catchLives <= 0) {
+            catchRunning = false;
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(0, 0, W, H);
+            ctx.fillStyle = '#FFD700';
+            ctx.font = 'bold 28px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Game Over!', W/2, H/2 - 20);
+            ctx.font = '20px sans-serif';
+            ctx.fillText('Skor: ' + catchScore + ' hati tertangkap!', W/2, H/2 + 15);
+            ctx.fillStyle = '#fff';
+            ctx.font = '16px sans-serif';
+            const msg = catchScore >= 30 ? '🎉 Luar biasa sayang! Kamu juara hatiku!' : catchScore >= 15 ? '💛 Hebat! Kamu penangkap hati sejati!' : '✨ Ayo coba lagi sayang!';
+            ctx.fillText(msg, W/2, H/2 + 45);
+            ctx.textAlign = 'start';
+            return;
         }
+        catchAnim = requestAnimationFrame(catchLoop);
+    }
 
-        // Love Calculator
-        function calcLove() {
-            const area = document.getElementById('loveCalcArea');
-            let pct = 0;
-            area.innerHTML = `<div class="score-display">${pct}%</div><div class="love-meter"><div class="love-meter-fill" style="width:0%"></div></div>`;
-            const iv = setInterval(() => {
-                pct += Math.floor(Math.random() * 5) + 1;
-                if (pct >= 100) { pct = 100; clearInterval(iv); setTimeout(() => { area.innerHTML += '<p style="margin-top:10px">💖 Cinta kita 100% sempurna!</p>'; }, 300); }
-                area.querySelector('.score-display').textContent = pct + '%';
-                area.querySelector('.love-meter-fill').style.width = pct + '%';
-            }, 50);
-        }
+    // Love Calculator
+    function calcLove() {
+        const area = document.getElementById('loveCalcArea');
+        let pct = 0;
+        area.innerHTML = `<div class="score-display">${pct}%</div><div class="love-meter"><div class="love-meter-fill" style="width:0%"></div></div>`;
+        const iv = setInterval(() => {
+            pct += Math.floor(Math.random() * 5) + 1;
+            if (pct >= 100) {
+                pct = 100; clearInterval(iv);
+                setTimeout(() => { area.innerHTML += '<p style="margin-top:10px">💖 Cinta kita 100% sempurna!</p>'; }, 300);
+            }
+            area.querySelector('.score-display').textContent = pct + '%';
+            area.querySelector('.love-meter-fill').style.width = pct + '%';
+        }, 50);
+    }
 
-        // Compliment Generator
-        const compliments = ['Kamu cantik banget hari ini 💛','Senyummu bikin hari aku indah ✨','Aku beruntung banget punya kamu 🌹','Kamu adalah hadiah terindah dalam hidupku 🎁','Setiap hari bersamamu adalah hari terbaik 💖','Kamu semakin cantik aja setiap hari 🌟','Aku sayang kamu lebih dari yang kamu tau 😘','Kamu tuh special banget tau gak 💎'];
-        function giveCompliment() {
-            const c = compliments[Math.floor(Math.random() * compliments.length)];
-            document.getElementById('complimentArea').innerHTML = `<div style="font-size:1.3em;padding:20px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#fff;border-radius:15px;margin-top:15px">${c}</div>`;
-        }
+    // Compliment Generator
+    const compliments = ['Kamu cantik banget hari ini 💛','Senyummu bikin hari aku indah ✨','Aku beruntung banget punya kamu 🌹','Kamu adalah hadiah terindah dalam hidupku 🎁','Setiap hari bersamamu adalah hari terbaik 💖','Kamu semakin cantik aja setiap hari 🌟','Aku sayang kamu lebih dari yang kamu tau 😘','Kamu tuh special banget tau gak 💎'];
+    function giveCompliment() {
+        const c = compliments[Math.floor(Math.random() * compliments.length)];
+        document.getElementById('complimentArea').innerHTML = `<div style="font-size:1.3em;padding:20px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#fff;border-radius:15px;margin-top:15px">${c}</div>`;
+    }
     </script>
 </body>
 </html>
