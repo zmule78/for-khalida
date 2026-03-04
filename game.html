@@ -105,25 +105,8 @@
         <p style="font-size:0.9em; opacity:0.8">Selamanya milikmu • 2025</p>
     </footer>
 
+    <script src="script.js"></script>
     <script>
-    // YouTube Music Control
-    let ytPlaying = false;
-    const musicBtn = document.getElementById('musicToggle');
-    const ytPlayer = document.getElementById('ytPlayer');
-    if (musicBtn) {
-        musicBtn.addEventListener('click', () => {
-            if (!ytPlaying) {
-                ytPlayer.src = 'https://www.youtube.com/embed/Bu70OmGc1fg?autoplay=1&loop=1&playlist=Bu70OmGc1fg&controls=0';
-                ytPlaying = true;
-                musicBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
-            } else {
-                ytPlayer.src = '';
-                ytPlaying = false;
-                musicBtn.style.background = '';
-            }
-        });
-    }
-
     // Memory Match Game
     function startMemory() {
         const emojis = ['💛','💛','❤️','❤️','🌹','🌹','🌟','🌟','🥰','🥰','💍','💍','🌸','🌸','🧸','🧸'];
