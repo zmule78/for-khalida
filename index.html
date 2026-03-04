@@ -3,132 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Love, Khalida 💛</title>
+    <title>For My Love, Khalida</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Background Music -->
-    <audio id="bgMusic" loop>
-        <source src="music/romantic.mp3" type="audio/mpeg">
-    </audio>
-    
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
     <!-- Music Control -->
-    <button class="music-control" id="musicToggle">
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+    </audio>
+    <button class="music-control" id="musicToggle" title="Play Music">
         <i class="fas fa-music"></i>
     </button>
 
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">F & K 💛</div>
-            <ul class="nav-menu">
+            <div class="logo"><i class="fas fa-heart-pulse"></i> F & K</div>
+            <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
-                <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
-                <li><a href="favorites.html"><i class="fas fa-star"></i> Her Favorites</a></li>
-                <li><a href="game.html"><i class="fas fa-gamepad"></i> Play Together</a></li>
-                <li><a href="messages.html"><i class="fas fa-envelope-heart"></i> Messages</a></li>
+                <li><a href="about-us.html"><i class="fas fa-heart"></i> Our Story</a></li>
+                <li><a href="memories.html"><i class="fas fa-camera-retro"></i> Memories</a></li>
+                <li><a href="favorites.html"><i class="fas fa-star"></i> Her World</a></li>
+                <li><a href="game.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a href="messages.html"><i class="fas fa-envelope-open-text"></i> Letters</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="floating-hearts">
-            <i class="fas fa-heart"></i>
-            <i class="fas fa-heart"></i>
-            <i class="fas fa-heart"></i>
-            <i class="fas fa-heart"></i>
-            <i class="fas fa-heart"></i>
-        </div>
-        
-        <div class="hero-content">
-            <h1 class="title-animated">
-                <span class="letter">F</span><span class="letter">o</span><span class="letter">r</span>
-                <span class="letter">M</span><span class="letter">y</span>
-                <span class="letter">L</span><span class="letter">o</span><span class="letter">v</span><span class="letter">e</span>
-            </h1>
-            <h2 class="subtitle">Khalida</h2>
-            <p class="tagline">"Every moment with you is a treasure" 💛</p>
+    <section class="hero" id="home">
+        <div class="floating-elements">
+            <span class="float-icon"><i class="fas fa-heart"></i></span>
+            <span class="float-icon"><i class="fas fa-star"></i></span>
+            <span class="float-icon"><i class="fas fa-heart"></i></span>
+            <span class="float-icon"><i class="fas fa-sparkles"></i></span>
+            <span class="float-icon"><i class="fas fa-heart"></i></span>
+            <span class="float-icon"><i class="fas fa-sun"></i></span>
+            <span class="float-icon"><i class="fas fa-heart"></i></span>
+            <span class="float-icon"><i class="fas fa-moon"></i></span>
         </div>
 
-        <!-- Countdown Timer -->
-        <div class="countdown-container">
-            <h3>Our Love Journey 💕</h3>
-            <p class="since">Since December 1st, 2025</p>
-            <div class="countdown">
-                <div class="time-box">
-                    <span class="time" id="days">0</span>
-                    <span class="label">Days</span>
-                </div>
-                <div class="time-box">
-                    <span class="time" id="hours">0</span>
-                    <span class="label">Hours</span>
-                </div>
-                <div class="time-box">
-                    <span class="time" id="minutes">0</span>
-                    <span class="label">Minutes</span>
-                </div>
-                <div class="time-box">
-                    <span class="time" id="seconds">0</span>
-                    <span class="label">Seconds</span>
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fas fa-crown"></i> For My One & Only</div>
+            <h1 class="title-animated">
+                <span class="title-line">For My Love,</span>
+                <span class="title-name">Khalida</span>
+            </h1>
+            <p class="tagline"><i class="fas fa-quote-left"></i> Setiap detik bersamamu adalah anugerah terindah <i class="fas fa-quote-right"></i></p>
+            <div class="hero-photo">
+                <div class="photo-frame">
+                    <img src="https://drive.google.com/thumbnail?id=150mPBEB7jIT7CPTE6i-7eTW1WLU8vjHD&sz=w400" alt="Us" onerror="this.style.display='none'">
+                    <div class="photo-overlay"><i class="fas fa-heart"></i></div>
                 </div>
             </div>
         </div>
 
+        <!-- Countdown Timer -->
+        <div class="countdown-container">
+            <div class="countdown-header">
+                <i class="fas fa-hourglass-half"></i>
+                <h3>Our Love Journey</h3>
+                <p class="since">Since December 1st, 2025</p>
+            </div>
+            <div class="countdown">
+                <div class="time-box">
+                    <div class="time-flip">
+                        <span class="time" id="days">0</span>
+                    </div>
+                    <span class="label"><i class="fas fa-calendar-day"></i> Hari</span>
+                </div>
+                <div class="time-separator">:</div>
+                <div class="time-box">
+                    <div class="time-flip">
+                        <span class="time" id="hours">0</span>
+                    </div>
+                    <span class="label"><i class="fas fa-clock"></i> Jam</span>
+                </div>
+                <div class="time-separator">:</div>
+                <div class="time-box">
+                    <div class="time-flip">
+                        <span class="time" id="minutes">0</span>
+                    </div>
+                    <span class="label"><i class="fas fa-hourglass"></i> Menit</span>
+                </div>
+                <div class="time-separator">:</div>
+                <div class="time-box">
+                    <div class="time-flip">
+                        <span class="time" id="seconds">0</span>
+                    </div>
+                    <span class="label"><i class="fas fa-stopwatch"></i> Detik</span>
+                </div>
+            </div>
+            <p class="countdown-note">...dan terus bertambah, selamanya <i class="fas fa-infinity"></i></p>
+        </div>
+
         <!-- Daily Quote -->
         <div class="daily-quote">
-            <i class="fas fa-quote-left"></i>
+            <div class="quote-icon"><i class="fas fa-feather-pointed"></i></div>
             <p id="quote-text">Loading love quote...</p>
-            <i class="fas fa-quote-right"></i>
+            <div class="quote-author" id="quote-author"></div>
         </div>
     </section>
 
     <!-- Quick Stats -->
     <section class="stats">
-        <div class="stat-item">
-            <i class="fas fa-coffee"></i>
-            <h3>Countless</h3>
-            <p>Coffee Dates</p>
+        <div class="stats-title"><h2><i class="fas fa-chart-heart"></i> Our Numbers</h2></div>
+        <div class="stats-grid">
+            <div class="stat-item" data-aos="fade-up">
+                <div class="stat-icon"><i class="fas fa-mug-hot"></i></div>
+                <h3>Tak Terhitung</h3>
+                <p>Ngopi Bareng</p>
+            </div>
+            <div class="stat-item" data-aos="fade-up">
+                <div class="stat-icon"><i class="fas fa-face-laugh-beam"></i></div>
+                <h3>Tak Terbatas</h3>
+                <p>Tawa Bersama</p>
+            </div>
+            <div class="stat-item" data-aos="fade-up">
+                <div class="stat-icon"><i class="fas fa-phone"></i></div>
+                <h3>Berjam-jam</h3>
+                <p>Ngobrol & Podcast</p>
+            </div>
+            <div class="stat-item" data-aos="fade-up">
+                <div class="stat-icon"><i class="fas fa-infinity"></i></div>
+                <h3>Selamanya</h3>
+                <p>Cintaku Untukmu</p>
+            </div>
         </div>
-        <div class="stat-item">
-            <i class="fas fa-smile"></i>
-            <h3>Infinite</h3>
-            <p>Smiles Shared</p>
-        </div>
-        <div class="stat-item">
-            <i class="fas fa-heart-pulse"></i>
-            <h3>Forever</h3>
-            <p>My Love for You</p>
-        </div>
-        <div class="stat-item">
-            <i class="fas fa-infinity"></i>
-            <h3>Eternal</h3>
-            <p>Our Bond</p>
+    </section>
+
+    <!-- RSS Feed Section -->
+    <section class="rss-section">
+        <h2><i class="fas fa-rss"></i> Daily Love Inspiration</h2>
+        <div class="rss-feed" id="rssFeed">
+            <div class="rss-loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
         </div>
     </section>
 
     <!-- CTA Section -->
     <section class="cta">
-        <h2>Explore Our Love Story</h2>
-        <div class="cta-buttons">
-            <a href="about-us.html" class="btn btn-primary">
-                <i class="fas fa-heart"></i> Our Story
-            </a>
-            <a href="memories.html" class="btn btn-secondary">
-                <i class="fas fa-images"></i> Our Memories
-            </a>
-            <a href="game.html" class="btn btn-accent">
-                <i class="fas fa-gamepad"></i> Play Game
-            </a>
+        <div class="cta-content">
+            <h2><i class="fas fa-compass"></i> Jelajahi Cerita Kita</h2>
+            <p>Setiap halaman menyimpan kenangan dan cinta kita</p>
+            <div class="cta-buttons">
+                <a href="about-us.html" class="btn btn-primary"><i class="fas fa-book-heart"></i> Cerita Kita</a>
+                <a href="memories.html" class="btn btn-secondary"><i class="fas fa-images"></i> Kenangan</a>
+                <a href="favorites.html" class="btn btn-accent"><i class="fas fa-wand-magic-sparkles"></i> Dunia Dia</a>
+                <a href="game.html" class="btn btn-game"><i class="fas fa-gamepad"></i> Main Yuk!</a>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>Made with 💛 by Faiz for Khalida</p>
-        <p>© 2025 - Forever & Always</p>
+        <div class="footer-content">
+            <div class="footer-hearts">
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+            </div>
+            <p class="footer-main">Made with <i class="fas fa-heart beating-heart"></i> by Faiz for Khalida</p>
+            <p class="footer-sub">2025 - Forever & Always</p>
+            <p class="footer-quote">"You are my today and all of my tomorrows"</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
