@@ -1,11 +1,15 @@
 // ===== HAMBURGER MENU =====
-const hamburger = document.getElementById('hamburger');
+const menuToggle = document.getElementById('menuToggle');
 const navMenu = document.getElementById('navMenu');
-if (hamburger) {
-    hamburger.addEventListener('click', () => {
+if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
     });
 }
+// Close menu when link clicked
+document.querySelectorAll('.nav-menu a').forEach(a => {
+    a.addEventListener('click', () => navMenu.classList.remove('active'));
+});
 
 // ===== MUSIC CONTROL =====
 const music = document.getElementById('bgMusic');
@@ -17,7 +21,7 @@ if (musicToggle) {
             music.pause();
             musicToggle.innerHTML = '<i class="fas fa-music"></i>';
         } else {
-            music.play();
+            music.play().catch(() => {});
             musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
         }
         isPlaying = !isPlaying;
@@ -40,6 +44,23 @@ function updateCountdown() {
 if (document.getElementById('days')) {
     setInterval(updateCountdown, 1000);
     updateCountdown();
+}
+
+// ===== TYPEWRITER EFFECT =====
+const typedName = document.getElementById('typedName');
+if (typedName) {
+    const text = 'Khalida';
+    let i = 0;
+    typedName.innerHTML = '<span class="cursor"></span>';
+    const cursor = typedName.querySelector('.cursor');
+    function typeChar() {
+        if (i < text.length) {
+            typedName.insertBefore(document.createTextNode(text[i]), cursor);
+            i++;
+            setTimeout(typeChar, 120);
+        }
+    }
+    setTimeout(typeChar, 800);
 }
 
 // ===== DAILY LOVE QUOTES =====
@@ -125,11 +146,42 @@ if (canvas) {
     });
 }
 
+// ===== SCROLL PROGRESS BAR =====
+const scrollProgress = document.getElementById('scrollProgress');
+if (scrollProgress) {
+    window.addEventListener('scroll', () => {
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+        scrollProgress.style.width = pct + '%';
+    });
+}
+
+// ===== SCROLL TO TOP =====
+const scrollTopBtn = document.getElementById('scrollTop');
+if (scrollTopBtn) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) scrollTopBtn.classList.add('visible');
+        else scrollTopBtn.classList.remove('visible');
+    });
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+// ===== SCROLL REVEAL (fade-in elements) =====
+const fadeEls = document.querySelectorAll('.fade-in');
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), i * 100);
+        }
+    });
+}, { threshold: 0.1 });
+fadeEls.forEach(el => revealObserver.observe(el));
+
 // ===== SPARKLE ON MOUSE =====
 document.addEventListener('mousemove', (e) => {
     if (Math.random() > 0.93) {
         const s = document.createElement('div');
-        s.innerHTML = ['&#10024;', '&#128155;', '&#10022;'][Math.floor(Math.random()*3)];
+        s.innerHTML = ['✨', '💛', '✦'][Math.floor(Math.random()*3)];
         s.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;pointer-events:none;font-size:${12+Math.random()*12}px;z-index:9999;animation:sparkleAnim 1s forwards;`;
         document.body.appendChild(s);
         setTimeout(() => s.remove(), 1000);
@@ -138,3 +190,16 @@ document.addEventListener('mousemove', (e) => {
 const sparkleStyle = document.createElement('style');
 sparkleStyle.textContent = `@keyframes sparkleAnim { 0% { opacity:1; transform:scale(0) rotate(0); } 100% { opacity:0; transform:scale(1.5) rotate(180deg) translateY(-20px); } }`;
 document.head.appendChild(sparkleStyle);
+
+// ===== LIGHTBOX =====
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+if (lightbox) {
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+        img.parentElement.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightbox.classList.add('active');
+        });
+    });
+    lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
+}
