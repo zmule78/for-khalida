@@ -10,22 +10,61 @@ document.querySelectorAll('.nav-menu a, .nav-links a').forEach(a => {
     a.addEventListener('click', () => navMenu.classList.remove('active'));
 });
 
-// ===== MUSIC CONTROL =====
-const music = document.getElementById('bgMusic');
-const musicToggle = document.getElementById('musicToggle');
-let isPlaying = false;
-if (musicToggle) {
-    musicToggle.addEventListener('click', () => {
-        if (isPlaying) {
-            music.pause();
-            musicToggle.innerHTML = '<i class="fas fa-music"></i>';
-        } else {
-            music.play().catch(() => {});
+// ===== PERSISTENT MUSIC CONTROL (YouTube iframe + localStorage) =====
+(function() {
+    const musicToggle = document.getElementById('musicToggle');
+    const ytPlayer = document.getElementById('ytPlayer');
+    const MUSIC_KEY = 'faizlida_music';
+    const YT_URL = 'https://www.youtube.com/embed/Bu70OmGc1fg?autoplay=1&loop=1&playlist=Bu70OmGc1fg&controls=0';
+
+    function getMusicState() {
+        try { return JSON.parse(localStorage.getItem(MUSIC_KEY)) || {}; } catch(e) { return {}; }
+    }
+    function setMusicState(state) {
+        localStorage.setItem(MUSIC_KEY, JSON.stringify(state));
+    }
+
+    function startMusic() {
+        if (ytPlayer) {
+            ytPlayer.src = YT_URL;
+        }
+        setMusicState({ playing: true, startedAt: Date.now() });
+        if (musicToggle) {
+            musicToggle.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
             musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
         }
-        isPlaying = !isPlaying;
-    });
-}
+    }
+
+    function stopMusic() {
+        if (ytPlayer) ytPlayer.src = '';
+        setMusicState({ playing: false });
+        if (musicToggle) {
+            musicToggle.style.background = '';
+            musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+        }
+    }
+
+    // On page load: resume music if it was playing
+    const state = getMusicState();
+    if (state.playing && ytPlayer) {
+        ytPlayer.src = YT_URL;
+        if (musicToggle) {
+            musicToggle.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+            musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+    }
+
+    if (musicToggle) {
+        musicToggle.addEventListener('click', () => {
+            const current = getMusicState();
+            if (current.playing) {
+                stopMusic();
+            } else {
+                startMusic();
+            }
+        });
+    }
+})();
 
 // ===== COUNTDOWN TIMER =====
 function updateCountdown() {
@@ -50,7 +89,7 @@ const typedName = document.getElementById('typedName');
 if (typedName) {
     const text = 'Khalida';
     let i = 0;
-    typedName.innerHTML = '<span class="cursor"></span>';
+    typedName.innerHTML = '';
     const cursor = typedName.querySelector('.cursor');
     function typeChar() {
         if (i < text.length) {
@@ -62,7 +101,7 @@ if (typedName) {
     setTimeout(typeChar, 800);
 }
 
-// ===== AUTO-ROTATING LOVE QUOTES (from our real chats) =====
+// ===== AUTO-ROTATING LOVE QUOTES =====
 const loveQuotes = [
     {text: "Semoga khalida dilancarkan dalam setiap ujian yang dihadapi biar bisa menjadi pribadi yang lebih baik.", author: "Faiz"},
     {text: "Kalau bukan karena itu, aku sama kamu gak akan pernah kenal dan dekat kaya sekarang.", author: "Faiz"},
@@ -95,11 +134,9 @@ const loveQuotes = [
     {text: "Bangga sekali melihat anak bimbing saya.", author: "Faiz"},
     {text: "Setiap detik bersamamu adalah keajaiban.", author: "F & K"}
 ];
-
 let quoteIndex = 0;
 const quoteEl = document.getElementById('quote-text');
 const authorEl = document.getElementById('quote-author');
-
 function showQuote(idx) {
     if (!quoteEl) return;
     quoteEl.style.opacity = '0';
@@ -111,17 +148,13 @@ function showQuote(idx) {
         quoteEl.style.transform = 'translateY(0)';
     }, 500);
 }
-
 if (quoteEl) {
     quoteEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     showQuote(0);
-    setInterval(() => {
-        quoteIndex = (quoteIndex + 1) % loveQuotes.length;
-        showQuote(quoteIndex);
-    }, 4000);
+    setInterval(() => { quoteIndex = (quoteIndex + 1) % loveQuotes.length; showQuote(quoteIndex); }, 4000);
 }
 
-// ===== PARTICLE CANVAS (hearts + stars) =====
+// ===== PARTICLE CANVAS =====
 const canvas = document.getElementById('particleCanvas');
 if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -130,40 +163,19 @@ if (canvas) {
     const particles = [];
     const symbols = ['\u2764', '\u2726', '\u273F', '\u2605', '\uD83D\uDC9B', '\u2728'];
     for (let i = 0; i < 35; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 14 + 8,
-            speedY: Math.random() * 0.6 + 0.2,
-            speedX: Math.random() * 0.4 - 0.2,
-            opacity: Math.random() * 0.4 + 0.1,
-            symbol: symbols[Math.floor(Math.random() * symbols.length)],
-            rotation: Math.random() * 360,
-            rotSpeed: (Math.random() - 0.5) * 1.5
-        });
+        particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*14+8, speedY: Math.random()*0.6+0.2, speedX: Math.random()*0.4-0.2, opacity: Math.random()*0.4+0.1, symbol: symbols[Math.floor(Math.random()*symbols.length)], rotation: Math.random()*360, rotSpeed: (Math.random()-0.5)*1.5 });
     }
     function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
         particles.forEach(p => {
-            ctx.save();
-            ctx.globalAlpha = p.opacity;
-            ctx.font = p.size + 'px serif';
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rotation * Math.PI / 180);
-            ctx.fillText(p.symbol, 0, 0);
-            ctx.restore();
-            p.y -= p.speedY;
-            p.x += p.speedX;
-            p.rotation += p.rotSpeed;
-            if (p.y < -20) { p.y = canvas.height + 20; p.x = Math.random() * canvas.width; }
+            ctx.save(); ctx.globalAlpha=p.opacity; ctx.font=p.size+'px serif'; ctx.translate(p.x,p.y); ctx.rotate(p.rotation*Math.PI/180); ctx.fillText(p.symbol,0,0); ctx.restore();
+            p.y-=p.speedY; p.x+=p.speedX; p.rotation+=p.rotSpeed;
+            if(p.y<-20){p.y=canvas.height+20;p.x=Math.random()*canvas.width;}
         });
         requestAnimationFrame(animateParticles);
     }
     animateParticles();
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
+    window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
 }
 
 // ===== SCROLL PROGRESS BAR =====
@@ -190,9 +202,7 @@ if (scrollTopBtn) {
 const fadeEls = document.querySelectorAll('.fade-in');
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-            setTimeout(() => entry.target.classList.add('visible'), i * 100);
-        }
+        if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 100);
     });
 }, { threshold: 0.1 });
 fadeEls.forEach(el => revealObserver.observe(el));
@@ -218,16 +228,13 @@ document.addEventListener('click', (e) => {
         const h = document.createElement('div');
         const emojis = ['\uD83D\uDC9B','\u2764\uFE0F','\u2728','\uD83C\uDF38','\u2B50'];
         h.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
-        const angle = Math.random() * Math.PI * 2;
-        const dist = 30 + Math.random() * 60;
+        const angle = Math.random()*Math.PI*2;
+        const dist = 30+Math.random()*60;
         const dx = Math.cos(angle)*dist;
         const dy = Math.sin(angle)*dist;
         h.style.cssText = 'position:fixed;left:'+e.clientX+'px;top:'+e.clientY+'px;pointer-events:none;font-size:'+(14+Math.random()*10)+'px;z-index:9999;transition:all 0.8s ease-out;opacity:1;';
         document.body.appendChild(h);
-        requestAnimationFrame(() => {
-            h.style.transform = 'translate('+dx+'px,'+dy+'px) scale(1.2)';
-            h.style.opacity = '0';
-        });
+        requestAnimationFrame(() => { h.style.transform='translate('+dx+'px,'+dy+'px) scale(1.2)'; h.style.opacity='0'; });
         setTimeout(() => h.remove(), 800);
     }
 });
@@ -237,10 +244,7 @@ const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 if (lightbox) {
     document.querySelectorAll('.gallery-item img').forEach(img => {
-        img.parentElement.addEventListener('click', () => {
-            lightboxImg.src = img.src;
-            lightbox.classList.add('active');
-        });
+        img.parentElement.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.classList.add('active'); });
     });
     lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
 }
@@ -249,22 +253,17 @@ if (lightbox) {
 const logo = document.querySelector('.logo');
 if (logo) {
     logo.style.transition = 'transform 0.3s ease';
-    setInterval(() => {
-        logo.style.transform = 'scale(1.08)';
-        setTimeout(() => { logo.style.transform = 'scale(1)'; }, 300);
-    }, 3000);
+    setInterval(() => { logo.style.transform='scale(1.08)'; setTimeout(()=>{logo.style.transform='scale(1)';},300); }, 3000);
 }
 
 // ===== TILT EFFECT ON CARDS =====
 document.querySelectorAll('.stat-item, .glass-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        const x = (e.clientX-rect.left)/rect.width-0.5;
+        const y = (e.clientY-rect.top)/rect.height-0.5;
         card.style.transform = 'perspective(600px) rotateY('+x*8+'deg) rotateX('+(-y*8)+'deg) scale(1.02)';
     });
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(600px) rotateY(0) rotateX(0) scale(1)';
-    });
+    card.addEventListener('mouseleave', () => { card.style.transform='perspective(600px) rotateY(0) rotateX(0) scale(1)'; });
     card.style.transition = 'transform 0.3s ease';
 });
