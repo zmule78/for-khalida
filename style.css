@@ -360,3 +360,95 @@ footer {
     .title-name { font-size: 2.8rem; }
     .time-separator { display: none; }
 }
+
+
+/* ===== NAV-LINKS ALIAS (sub-pages) ===== */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0.5rem;
+}
+.nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+}
+.nav-links a:hover, .nav-links a.active {
+    background: var(--white);
+    color: var(--dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+/* Hamburger button */
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: var(--white);
+    font-size: 1.5rem;
+}
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: var(--white);
+    margin: 4px 0;
+    border-radius: 3px;
+    transition: all 0.3s;
+}
+@media (max-width: 768px) {
+    .hamburger { display: block; }
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--gradient);
+        padding: 1rem;
+        box-shadow: 0 5px 20px var(--shadow);
+    }
+    .nav-links.active { display: flex; }
+}
+/* ===== SUB-PAGE HERO OVERRIDE ===== */
+.about-hero, .mem-hero, .msg-hero, .fav-hero, .game-hero {
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8rem 2rem 3rem;
+    background: var(--gradient);
+    color: var(--white);
+}
+.about-hero h1, .mem-hero h1, .msg-hero h1, .fav-hero h1, .game-hero h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem;
+    color: var(--white);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+    margin-bottom: 0.5rem;
+}
+.about-hero p, .mem-hero p, .msg-hero p, .fav-hero p, .game-hero p {
+    color: var(--white);
+    opacity: 0.9;
+    font-size: 1.1rem;
+    max-width: 600px;
+}
+/* ===== GALLERY CAPTION FIX ===== */
+.gallery-item .caption h3 {
+    font-size: 1rem;
+    color: var(--dark);
+    margin-bottom: 4px;
+}
+.gallery-item .caption p {
+    font-size: 0.85rem;
+    color: #888;
+}
