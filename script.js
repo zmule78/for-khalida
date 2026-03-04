@@ -1,13 +1,13 @@
 // ===== HAMBURGER MENU =====
 const menuToggle = document.getElementById('menuToggle');
-const navMenu = document.getElementById('navMenu');
+const navMenu = document.getElementById('navMenu') || document.querySelector('.nav-links');
 if (menuToggle) {
     menuToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
     });
 }
 // Close menu when link clicked
-document.querySelectorAll('.nav-menu a').forEach(a => {
+document.querySelectorAll('.nav-menu a, .nav-links a').forEach(a => {
     a.addEventListener('click', () => navMenu.classList.remove('active'));
 });
 
