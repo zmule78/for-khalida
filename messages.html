@@ -33,23 +33,23 @@
     </style>
 </head>
 <body>
-    <audio id="bgMusic" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
-    </audio>
+    <!-- YouTube Audio (hidden) -->
+    <iframe id="ytPlayer" width="0" height="0" src="" allow="autoplay" style="display:none;"></iframe>
     <button class="music-control" id="musicToggle"><i class="fas fa-music"></i></button>
 
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">faizlida ❤</div>
-            <ul class="nav-menu">
+            <div class="logo">faizlida <i class="fas fa-heart" style="font-size:0.6em;color:#e8a000"></i>💛</div>
+            <button class="hamburger" id="menuToggle">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
                 <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
                 <li><a href="messages.html" class="active"><i class="fas fa-envelope"></i> Messages</a></li>
-                <li><a href="favorites.html"><i class="fas fa-star"></i> Favorites</a></li>
                 <li><a href="game.html"><i class="fas fa-gamepad"></i> Games</a></li>
             </ul>
-            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
@@ -112,5 +112,24 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // YouTube Music Control
+        let ytPlaying = false;
+        const musicBtn = document.getElementById('musicToggle');
+        const ytPlayer = document.getElementById('ytPlayer');
+        if (musicBtn) {
+            musicBtn.addEventListener('click', () => {
+                if (!ytPlaying) {
+                    ytPlayer.src = 'https://www.youtube.com/embed/Bu70OmGc1fg?autoplay=1&loop=1&playlist=Bu70OmGc1fg&controls=0';
+                    ytPlaying = true;
+                    musicBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                } else {
+                    ytPlayer.src = '';
+                    ytPlaying = false;
+                    musicBtn.style.background = '';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
