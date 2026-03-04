@@ -32,23 +32,23 @@
     </style>
 </head>
 <body>
-    <audio id="bgMusic" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
-    </audio>
+    <!-- YouTube Audio (hidden) -->
+    <iframe id="ytPlayer" width="0" height="0" src="" allow="autoplay" style="display:none;"></iframe>
     <button class="music-control" id="musicToggle"><i class="fas fa-music"></i></button>
 
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">faizlida ❤</div>
-            <ul class="nav-menu">
+            <div class="logo">faizlida <i class="fas fa-heart" style="font-size:0.6em;color:#e8a000"></i>💛</div>
+            <button class="hamburger" id="menuToggle">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
                 <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
                 <li><a href="messages.html"><i class="fas fa-envelope"></i> Messages</a></li>
-                <li><a href="favorites.html"><i class="fas fa-star"></i> Favorites</a></li>
                 <li><a href="game.html" class="active"><i class="fas fa-gamepad"></i> Games</a></li>
             </ul>
-            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
@@ -58,11 +58,11 @@
     </section>
 
     <div class="games-container">
-        <!-- Memory Match Game -->
+        <!-- Memory Match -->
         <div class="game-card">
             <h2>🧠 Memory Match Love</h2>
             <p>Temukan pasangan emoji yang cocok! Seperti kita yang cocok satu sama lain 💛</p>
-            <button class="game-btn" onclick="startMemoryGame()">Mulai Main!</button>
+            <button class="game-btn" onclick="startMemory()">Mulai Main!</button>
             <div class="game-area" id="memoryArea"></div>
         </div>
 
@@ -78,7 +78,7 @@
         <div class="game-card">
             <h2>🔮 Love Calculator</h2>
             <p>Hitung seberapa besar cinta kita! (Spoiler: selalu 100%)</p>
-            <button class="game-btn" onclick="calculateLove()">Hitung Cinta!</button>
+            <button class="game-btn" onclick="calcLove()">Hitung Cinta!</button>
             <div class="game-area" id="loveCalcArea"></div>
         </div>
 
@@ -86,7 +86,7 @@
         <div class="game-card">
             <h2>💋 Compliment Generator</h2>
             <p>Klik untuk mendapat pujian manis!</p>
-            <button class="game-btn" onclick="generateCompliment()">Kasih Pujian!</button>
+            <button class="game-btn" onclick="giveCompliment()">Kasih Pujian!</button>
             <div class="game-area" id="complimentArea"></div>
         </div>
     </div>
@@ -99,6 +99,93 @@
     </footer>
 
     <script src="script.js"></script>
-    <script src="game.js"></script>
+    <script>
+        // YouTube Music Control
+        let ytPlaying = false;
+        const musicBtn = document.getElementById('musicToggle');
+        const ytPlayer = document.getElementById('ytPlayer');
+        if (musicBtn) {
+            musicBtn.addEventListener('click', () => {
+                if (!ytPlaying) {
+                    ytPlayer.src = 'https://www.youtube.com/embed/Bu70OmGc1fg?autoplay=1&loop=1&playlist=Bu70OmGc1fg&controls=0';
+                    ytPlaying = true;
+                    musicBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                } else {
+                    ytPlayer.src = '';
+                    ytPlaying = false;
+                    musicBtn.style.background = '';
+                }
+            });
+        }
+
+        // Memory Match Game
+        function startMemory() {
+            const emojis = ['💛','💛','❤️','❤️','🌹','🌹','🌟','🌟','🥰','🥰','💍','💍','🌸','🌸','🧸','🧸'];
+            emojis.sort(() => Math.random() - 0.5);
+            const area = document.getElementById('memoryArea');
+            area.innerHTML = '<div class="memory-grid">' + emojis.map((e, i) => `<div class="memory-cell" data-emoji="${e}" data-index="${i}" onclick="flipCard(this)">${e}</div>`).join('') + '</div>';
+        }
+        let flipped = [], matched = 0;
+        function flipCard(el) {
+            if (flipped.length >= 2 || el.classList.contains('flipped') || el.classList.contains('matched')) return;
+            el.classList.add('flipped');
+            flipped.push(el);
+            if (flipped.length === 2) {
+                if (flipped[0].dataset.emoji === flipped[1].dataset.emoji) {
+                    flipped.forEach(c => c.classList.add('matched'));
+                    matched += 2;
+                    flipped = [];
+                    if (matched === 16) setTimeout(() => alert('🎉 Kamu menang sayang! Kita memang cocok!'), 300);
+                } else {
+                    setTimeout(() => { flipped.forEach(c => c.classList.remove('flipped')); flipped = []; }, 800);
+                }
+            }
+        }
+
+        // Love Quiz
+        const quizData = [
+            { q: 'Apa warna favorit Khalida?', options: ['Biru','Pink','Kuning','Hijau'], correct: 1 },
+            { q: 'Kapan anniversary kita?', options: ['1 Desember','14 Februari','1 Januari','25 Desember'], correct: 0 },
+            { q: 'Makanan favorit Khalida?', options: ['Nasi Goreng','Mie Ayam','Sushi','Bakso'], correct: 0 },
+            { q: 'Apa panggilan sayang kita?', options: ['Beb','Sayang','Ida','Semua benar'], correct: 3 }
+        ];
+        let quizIndex = 0, quizScore = 0;
+        function startQuiz() { quizIndex = 0; quizScore = 0; showQuestion(); }
+        function showQuestion() {
+            if (quizIndex >= quizData.length) {
+                document.getElementById('quizArea').innerHTML = `<div class="score-display">🎉 Skor: ${quizScore}/${quizData.length}</div><p>${quizScore === quizData.length ? 'Sempurna! Kamu memang paling kenal aku 💛' : 'Ayo belajar lagi tentang aku ya sayang ✨'}</p>`;
+                return;
+            }
+            const q = quizData[quizIndex];
+            document.getElementById('quizArea').innerHTML = `<p style="font-weight:600;margin:15px 0">${q.q}</p>` + q.options.map((o, i) => `<button class="quiz-option" onclick="answerQuiz(${i},${q.correct})">${o}</button>`).join('');
+        }
+        function answerQuiz(selected, correct) {
+            const btns = document.querySelectorAll('.quiz-option');
+            btns.forEach((b, i) => { b.disabled = true; if (i === correct) b.classList.add('correct'); if (i === selected && selected !== correct) b.classList.add('wrong'); });
+            if (selected === correct) quizScore++;
+            quizIndex++;
+            setTimeout(showQuestion, 1000);
+        }
+
+        // Love Calculator
+        function calcLove() {
+            const area = document.getElementById('loveCalcArea');
+            let pct = 0;
+            area.innerHTML = `<div class="score-display">${pct}%</div><div class="love-meter"><div class="love-meter-fill" style="width:0%"></div></div>`;
+            const iv = setInterval(() => {
+                pct += Math.floor(Math.random() * 5) + 1;
+                if (pct >= 100) { pct = 100; clearInterval(iv); setTimeout(() => { area.innerHTML += '<p style="margin-top:10px">💖 Cinta kita 100% sempurna!</p>'; }, 300); }
+                area.querySelector('.score-display').textContent = pct + '%';
+                area.querySelector('.love-meter-fill').style.width = pct + '%';
+            }, 50);
+        }
+
+        // Compliment Generator
+        const compliments = ['Kamu cantik banget hari ini 💛','Senyummu bikin hari aku indah ✨','Aku beruntung banget punya kamu 🌹','Kamu adalah hadiah terindah dalam hidupku 🎁','Setiap hari bersamamu adalah hari terbaik 💖','Kamu semakin cantik aja setiap hari 🌟','Aku sayang kamu lebih dari yang kamu tau 😘','Kamu tuh special banget tau gak 💎'];
+        function giveCompliment() {
+            const c = compliments[Math.floor(Math.random() * compliments.length)];
+            document.getElementById('complimentArea').innerHTML = `<div style="font-size:1.3em;padding:20px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#fff;border-radius:15px;margin-top:15px">${c}</div>`;
+        }
+    </script>
 </body>
 </html>
