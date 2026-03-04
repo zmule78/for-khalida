@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Together 🎮</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <audio id="bgMusic" loop>
+        <source src="music/romantic.mp3" type="audio/mpeg">
+    </audio>
+    
+    <button class="music-control" id="musicToggle">
+        <i class="fas fa-music"></i>
+    </button>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">F & K 💛</div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
+                <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
+                <li><a href="favorites.html"><i class="fas fa-star"></i> Her Favorites</a></li>
+                <li><a href="game.html" class="active"><i class="fas fa-gamepad"></i> Play Together</a></li>
+                <li><a href="messages.html"><i class="fas fa-envelope-heart"></i> Messages</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>Let's Play Together! 🎮</h1>
+        <p>Fun games for us to enjoy</p>
+    </div>
+
+    <section class="games-section">
+        <!-- Love Calculator Game -->
+        <div class="game-card">
+            <div class="game-header">
+                <i class="fas fa-heart-pulse"></i>
+                <h2>Our Love Meter</h2>
+            </div>
+            <div class="game-content">
+                <p>How much do we love each other today?</p>
+                <button class="game-btn" onclick="calculateLove()">Calculate Our Love 💕</button>
+                <div id="love-result" class="game-result"></div>
+            </div>
+        </div>
+
+        <!-- Memory Match Game -->
+        <div class="game-card">
+            <div class="game-header">
+                <i class="fas fa-th"></i>
+                <h2>Memory Match</h2>
+            </div>
+            <div class="game-content">
+                <p>Find the matching heart pairs!</p>
+                <div class="score-board">
+                    <span>Moves: <strong id="moves">0</strong></span>
+                    <span>Matches: <strong id="matches">0/8</strong></span>
+                </div>
+                <div id="memory-game" class="memory-board"></div>
+                <button class="game-btn" onclick="startMemoryGame()">New Game</button>
+            </div>
+        </div>
+
+        <!-- Fortune Cookie Game -->
+        <div class="game-card">
+            <div class="game-header">
+                <i class="fas fa-cookie-bite"></i>
+                <h2>Love Fortune</h2>
+            </div>
+            <div class="game-content">
+                <p>Get a special message just for us!</p>
+                <button class="game-btn" onclick="getFortune()">Open Fortune Cookie 🥠</button>
+                <div id="fortune-result" class="game-result"></div>
+            </div>
+        </div>
+
+        <!-- Would You Rather Game -->
+        <div class="game-card">
+            <div class="game-header">
+                <i class="fas fa-question-circle"></i>
+                <h2>Would You Rather?</h2>
+            </div>
+            <div class="game-content">
+                <div id="would-you-rather" class="wyr-container">
+                    <p id="wyr-question">Click the button to get a question!</p>
+                    <div id="wyr-options" class="wyr-options"></div>
+                </div>
+                <button class="game-btn" onclick="getWouldYouRather()">Get Question</button>
+            </div>
+        </div>
+
+        <!-- Love Quiz Game -->
+        <div class="game-card">
+            <div class="game-header">
+                <i class="fas fa-brain"></i>
+                <h2>How Well Do You Know Me?</h2>
+            </div>
+            <div class="game-content">
+                <div id="quiz-container">
+                    <p>Test your knowledge about Faiz!</p>
+                    <button class="game-btn" onclick="startQuiz()">Start Quiz 🧠</button>
+                </div>
+                <div id="quiz-result" class="game-result"></div>
+            </div>
+        </div>
+
+        <!-- Virtual Hug Counter -->
+        <div class="game-card special-game">
+            <div class="game-header">
+                <i class="fas fa-hands-holding"></i>
+                <h2>Virtual Hugs Counter</h2>
+            </div>
+            <div class="game-content">
+                <p>Because I can't hug you enough in person!</p>
+                <div class="hug-counter">
+                    <div class="hug-display" id="hug-count">0</div>
+                    <p>Hugs Sent Today</p>
+                </div>
+                <button class="game-btn hug-btn" onclick="sendHug()">🤗 Send a Hug</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Made with 💛 by Faiz for Khalida</p>
+        <p>© 2025 - Forever & Always</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
