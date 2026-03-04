@@ -41,26 +41,22 @@
         .promise-list { list-style: none; padding: 0; }
         .promise-list li { padding: 12px 0; color: #666; font-size: 1.05em; border-bottom: 1px dashed rgba(255,215,0,0.3); }
         .promise-list li i { color: #FFD700; margin-right: 10px; }
-        @media (max-width: 768px) {
-            .timeline-item { width: 100% !important; left: 0 !important; text-align: left !important; padding-left: 40px; }
-            .story-timeline::before { left: 15px; }
-            .timeline-item::before { left: 4px !important; right: auto !important; }
-            .about-hero h1 { font-size: 2em; }
-        }
+        @media (max-width: 768px) { .timeline-item { width: 100% !important; left: 0 !important; text-align: left !important; padding-left: 40px; } .story-timeline::before { left: 15px; } .timeline-item::before { left: 4px !important; right: auto !important; } .about-hero h1 { font-size: 2em; } }
     </style>
 </head>
 <body>
-    <!-- Music -->
     <audio id="bgMusic" loop>
         <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
     </audio>
     <button class="music-control" id="musicToggle"><i class="fas fa-music"></i></button>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">F & K 💛</div>
-            <ul class="nav-menu">
+            <button class="hamburger" id="menuToggle">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="about-us.html" class="active"><i class="fas fa-heart"></i> About Us</a></li>
                 <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
@@ -68,11 +64,9 @@
                 <li><a href="favorites.html"><i class="fas fa-star"></i> Favorites</a></li>
                 <li><a href="game.html"><i class="fas fa-gamepad"></i> Games</a></li>
             </ul>
-            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
-    <!-- Hero -->
     <section class="about-hero">
         <h1>💛 Cerita Kita 💛</h1>
         <p>Setiap momen bersamamu adalah halaman terindah dalam buku kehidupanku</p>
@@ -81,12 +75,12 @@
     <!-- Couple Cards -->
     <section class="couple-section">
         <div class="couple-card">
-            <img src="https://via.placeholder.com/150/FFD700/fff?text=F" alt="Fikri">
+            <img src="https://lh3.googleusercontent.com/d/1b-fmuP1KfwO691930IJNkZV5dKUf66qY" alt="Fikri">
             <h2>👤 Fikri</h2>
             <p>Seorang yang jatuh cinta setiap hari kepada Khalida. Yang selalu berusaha menjadi yang terbaik untukmu.</p>
         </div>
         <div class="couple-card">
-            <img src="https://via.placeholder.com/150/FF69B4/fff?text=K" alt="Khalida">
+            <img src="https://lh3.googleusercontent.com/d/1REQy4EG5Wr3xk3a6fUoT-7n_LaaMVEHf" alt="Khalida">
             <h2>👧 Khalida</h2>
             <p>Wanita yang luar biasa, cerdas, cantik, dan penuh kasih sayang. Sumber kebahagiaanku setiap hari.</p>
         </div>
