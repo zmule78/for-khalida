@@ -25,87 +25,56 @@
         .love-meter { width: 100%; max-width: 300px; height: 20px; background: #eee; border-radius: 10px; margin: 15px auto; overflow: hidden; }
         .love-meter-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FF69B4); border-radius: 10px; transition: width 0.5s; }
         #catchCanvas { border-radius: 15px; display: block; margin: 15px auto; background: linear-gradient(180deg, #FFF8DC, #FFEFD5); border: 2px solid rgba(255,215,0,0.4); cursor: none; max-width: 100%; }
-        .catch-stats { display: flex; justify-content: center; gap: 25px; margin: 10px 0; font-size: 1.1em; color: #B8860B; font-weight: 600; }
+        .catch-stats { display: flex; justify-content: center; gap: 25px; margin: 10px 0; font-size: 1.1em; color: #B8860B; font-weight: 600; flex-wrap: wrap; }
         .catch-stats span { background: #FFF8DC; padding: 5px 15px; border-radius: 20px; border: 1px solid #FFD700; }
-        @media (max-width: 768px) {
-            .game-hero h1 { font-size: 2em; }
-            .memory-grid { grid-template-columns: repeat(4, 60px); }
-            .memory-cell { width: 60px; height: 60px; font-size: 1.5em; }
-        }
+        @media (max-width: 768px) { .game-hero h1 { font-size: 2em; } .memory-grid { grid-template-columns: repeat(4, 60px); } .memory-cell { width: 60px; height: 60px; font-size: 1.5em; } }
     </style>
 </head>
 <body>
-
-    <!-- Audio Element -->
-    <audio id="bgMusic" loop>
-        <source src="" type="audio/mpeg">
-    </audio>
-    <iframe id="ytPlayer" style="display:none" allow="autoplay"></iframe>
-    <button class="music-control" id="musicToggle"><i class="fas fa-music"></i></button>
-
     <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">faizlida <i class="fas fa-heart" style="font-size:0.6em;color:#e8a000"></i> 💛 </div>
-            <button class="hamburger" id="menuToggle">
-                <span></span><span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
-                <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
-                <li><a href="messages.html"><i class="fas fa-envelope"></i> Messages</a></li>
-                <li><a href="game.html" class="active"><i class="fas fa-gamepad"></i> Games</a></li>
-            </ul>
-        </div>
+        <a href="index.html" class="logo">faizlida 💛</a>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
+            <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
+            <li><a href="messages.html"><i class="fas fa-envelope"></i> Messages</a></li>
+            <li><a href="game.html" class="active"><i class="fas fa-gamepad"></i> Games</a></li>
+        </ul>
     </nav>
-
     <section class="game-hero">
         <h1>🎮 Love Games 🎮</h1>
         <p>Main bareng yuk sayang! Game seru yang bikin kita makin dekat</p>
     </section>
-
     <div class="games-container">
-
-        <!-- Memory Match -->
         <div class="game-card">
             <h2>🧠 Memory Match Love</h2>
             <p>Temukan pasangan emoji yang cocok! Seperti kita yang cocok satu sama lain 💛</p>
             <button class="game-btn" onclick="startMemory()">Mulai Main!</button>
             <div class="game-area" id="memoryArea"></div>
         </div>
-
-        <!-- Love Catch Game (NEW - replacing Love Quiz) -->
         <div class="game-card">
             <h2>💕 Love Catch</h2>
             <p>Tangkap ❤️ dapat poin, 💛 tambah nyawa, 💍x4 melambat, 🌹x3 lebih cepat, ⭐x5 efek bintang! Hindari 💔 atau game over!</p>
             <button class="game-btn" onclick="startCatch()">Main Tangkap Hati!</button>
             <div class="game-area" id="catchArea"></div>
         </div>
-
-        <!-- Love Calculator -->
         <div class="game-card">
             <h2>🔮 Love Calculator</h2>
             <p>Hitung seberapa besar cinta kita! (Spoiler: selalu 100%)</p>
             <button class="game-btn" onclick="calcLove()">Hitung Cinta!</button>
             <div class="game-area" id="loveCalcArea"></div>
         </div>
-
-        <!-- Compliment Generator -->
         <div class="game-card">
             <h2>💋 Compliment Generator</h2>
             <p>Klik untuk mendapat pujian manis!</p>
             <button class="game-btn" onclick="giveCompliment()">Kasih Pujian!</button>
             <div class="game-area" id="complimentArea"></div>
         </div>
-
     </div>
-
-    <footer>
-        <p>Made with <span style="color:#FFD700">❤️</span> by Faiz for Khalida</p>
-        <p style="font-size:0.9em; opacity:0.8">Selamanya milikmu • 2025</p>
+    <footer class="footer">
+        <p>Made with &nbsp;❤️&nbsp; by Faiz for Khalida</p>
+        <p>Selamanya milikmu &bull; 2025</p>
     </footer>
-
-    <script src="script.js"></script>
     <script>
     // Memory Match Game
     function startMemory() {
@@ -117,29 +86,26 @@
     let flipped = [], matched = 0;
     function flipCard(el) {
         if (flipped.length >= 2 || el.classList.contains('flipped') || el.classList.contains('matched')) return;
-        el.classList.add('flipped');
-        flipped.push(el);
+        el.classList.add('flipped'); flipped.push(el);
         if (flipped.length === 2) {
             if (flipped[0].dataset.emoji === flipped[1].dataset.emoji) {
-                flipped.forEach(c => c.classList.add('matched'));
-                matched += 2;
-                flipped = [];
+                flipped.forEach(c => c.classList.add('matched')); matched += 2; flipped = [];
                 if (matched === 16) setTimeout(() => alert('🎉 Kamu menang sayang! Kita memang cocok!'), 300);
-            } else {
-                setTimeout(() => { flipped.forEach(c => c.classList.remove('flipped')); flipped = []; }, 800);
-            }
+            } else { setTimeout(() => { flipped.forEach(c => c.classList.remove('flipped')); flipped = []; }, 800); }
         }
     }
 
-    // Love Catch Game (replaces Love Quiz)
-    let catchAnim, catchScore, catchLives, catchItems, catchPadX, catchCanvas, catchCtx, catchRunning, catchRings, catchRoses, catchStars, catchSpeed, catchStarBg, catchStarParticles;
+    // Love Catch Game
+    let catchAnim, catchScore, catchLives, catchItems, catchPadX, catchCanvas, catchCtx, catchRunning;
+    let catchRings, catchRoses, catchStars, catchSpeed, catchStarBg, catchStarParticles;
+
     function startCatch() {
         const area = document.getElementById('catchArea');
         area.innerHTML = '<div class="catch-stats"><span id="catchScore">❤️ Skor: 0</span><span id="catchLives">💛 Nyawa: 3</span><span id="catchInfo">✨</span></div><canvas id="catchCanvas" width="400" height="350"></canvas>';
         catchCanvas = document.getElementById('catchCanvas');
         catchCtx = catchCanvas.getContext('2d');
-        catchScore = 0; catchLives = 3; catchRings = 0; catchRoses = 0; catchStars = 0; catchSpeed = 1; catchStarBg = false; catchStarParticles = []; catchItems = []; catchPadX = 175; catchRunning = true;
-        // Controls
+        catchScore = 0; catchLives = 3; catchItems = []; catchPadX = 175; catchRunning = true;
+        catchRings = 0; catchRoses = 0; catchStars = 0; catchSpeed = 1; catchStarBg = false; catchStarParticles = [];
         catchCanvas.addEventListener('mousemove', e => {
             const r = catchCanvas.getBoundingClientRect();
             catchPadX = ((e.clientX - r.left) / r.width) * 400 - 25;
@@ -152,16 +118,39 @@
         if (catchAnim) cancelAnimationFrame(catchAnim);
         catchLoop();
     }
-    function catchLoop() { if (!catchRunning) return; const ctx = catchCtx, W = 400, H = 350; if(catchStarBg){ ctx.fillStyle='#1a0033'; ctx.fillRect(0,0,W,H); for(let s=catchStarParticles.length-1;s>=0;s--){ const sp=catchStarParticles[s]; ctx.globalAlpha=sp.a; ctx.fillStyle='#FFD700'; ctx.beginPath(); ctx.arc(sp.x,sp.y,sp.r,0,Math.PI*2); ctx.fill(); sp.y+=0.5; sp.a-=0.003; if(sp.a<=0) catchStarParticles.splice(s,1); } ctx.globalAlpha=1; if(catchStarParticles.length===0) catchStarBg=false; } else { ctx.clearRect(0,0,W,H); } if(Math.random()<0.025+catchScore*0.001){ if(Math.random()<0.18){ catchItems.push({x:Math.random()*(W-30),y:-30,speed:2.5+Math.random()*2,bad:true,emoji:'💔'}); } else { const types=['❤️','💛','🌹','💍','⭐','💕','🥰']; catchItems.push({x:Math.random()*(W-30),y:-30,speed:2+Math.random()*2,bad:false,emoji:types[Math.floor(Math.random()*types.length)]}); } } for(let i=catchItems.length-1;i>=0;i--){ const it=catchItems[i]; it.y+=it.speed*catchSpeed; ctx.font='28px serif'; ctx.fillText(it.emoji,it.x,it.y); if(it.y>H-50&&it.y<H-10&&it.x>catchPadX-10&&it.x<catchPadX+60){ if(it.bad){ catchRunning=false; document.getElementById('catchLives').textContent='💔 GAME OVER!'; catchItems=[]; } else { const e=it.emoji; if(e==='💛'){catchLives++;document.getElementById('catchLives').textContent='💛 Nyawa: '+catchLives;document.getElementById('catchInfo').textContent='+1 Nyawa!';} else if(e==='💍'){catchRings++;if(catchRings%4===0){catchSpeed=Math.max(0.4,catchSpeed-0.3);document.getElementById('catchInfo').textContent='💍x4 Melambat!';}} else if(e==='🌹'){catchRoses++;if(catchRoses%3===0){catchSpeed=Math.min(2.5,catchSpeed+0.3);document.getElementById('catchInfo').textContent='🌹x3 Lebih Cepat!';}} else if(e==='⭐'){catchStars++;if(catchStars%5===0){catchStarBg=true;for(let s=0;s<40;s++) catchStarParticles.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*3+1,a:1});document.getElementById('catchInfo').textContent='⭐x5 Star Mode!';}} else {catchScore++;document.getElementById('catchScore').textContent='❤️ Skor: '+catchScore;} } catchItems.splice(i,1); continue; } if(it.y>H){ catchItems.splice(i,1); } } ctx.font='35px serif'; ctx.fillText('🧯',catchPadX,H-15); ctx.fillText('💐',catchPadX+5,H-20); if(!catchRunning){ ctx.fillStyle='rgba(0,0,0,0.6)'; ctx.fillRect(0,0,W,H); ctx.fillStyle='#FFD700'; ctx.font='bold 28px sans-serif'; ctx.textAlign='center'; ctx.fillText('💔 Game Over!',W/2,H/2-20); ctx.font='20px sans-serif'; ctx.fillText('Skor: '+catchScore+' hati!',W/2,H/2+15); ctx.fillStyle='#fff'; ctx.font='16px sans-serif'; const msg=catchScore>=30?'🎉 Luar biasa sayang!':catchScore>=15?'💛 Hebat! Kamu terbaik!':'✨ Ayo coba lagi sayang!'; ctx.fillText(msg,W/2,H/2+45); ctx.textAlign='start'; return; } catchAnim=requestAnimationFrame(catchLoop); }
+
+    function catchLoop() {
         if (!catchRunning) return;
         const ctx = catchCtx, W = 400, H = 350;
-        if(catchStarBg){ ctx.fillStyle='linear-gradient(180deg,#1a0033,#3d0066)'; ctx.fillRect(0,0,W,H); } else { ctx.clearRect(0,0,W,H); }
-        // Spawn items
-        if (Math.random() < 0.025 + catchScore * 0.001) { if (Math.random() < 0.18) { catchItems.push({ x: Math.random()*(W-30), y: -30, speed: (2.5+Math.random()*2)*catchSpeed, bad: true, emoji: '💔' }); } else {
-            const bad = Math.random() < 0.25;
-            catchItems.push({ x: Math.random() * (W - 30), y: -30, speed: 2 + Math.random() * 2 + catchScore * 0.1, bad: bad, emoji: bad ? '💔' : ['❤️','💛','💕','🌹','💎','✨','🥰'][Math.floor(Math.random()*7)] });
+        // Star background effect
+        if (catchStarBg) {
+            ctx.fillStyle = '#1a0033';
+            ctx.fillRect(0, 0, W, H);
+            for (let s = catchStarParticles.length - 1; s >= 0; s--) {
+                const sp = catchStarParticles[s];
+                ctx.globalAlpha = sp.a;
+                ctx.fillStyle = '#FFD700';
+                ctx.beginPath();
+                ctx.arc(sp.x, sp.y, sp.r, 0, Math.PI * 2);
+                ctx.fill();
+                sp.y += 0.5; sp.a -= 0.003;
+                if (sp.a <= 0) catchStarParticles.splice(s, 1);
+            }
+            ctx.globalAlpha = 1;
+            if (catchStarParticles.length === 0) catchStarBg = false;
+        } else {
+            ctx.clearRect(0, 0, W, H);
         }
-        // Draw & update items
+        // Spawn items
+        if (Math.random() < 0.025 + catchScore * 0.001) {
+            if (Math.random() < 0.18) {
+                catchItems.push({x: Math.random()*(W-30), y: -30, speed: 2.5+Math.random()*2, bad: true, emoji: '💔'});
+            } else {
+                const types = ['❤️','💛','🌹','💍','⭐','💕','🥰'];
+                catchItems.push({x: Math.random()*(W-30), y: -30, speed: 2+Math.random()*2, bad: false, emoji: types[Math.floor(Math.random()*types.length)]});
+            }
+        }
+        // Update and draw items
         for (let i = catchItems.length - 1; i >= 0; i--) {
             const it = catchItems[i];
             it.y += it.speed * catchSpeed;
@@ -170,40 +159,54 @@
             // Catch check
             if (it.y > H - 50 && it.y < H - 10 && it.x > catchPadX - 10 && it.x < catchPadX + 60) {
                 if (it.bad) {
-                    catchLives--;
-                    document.getElementById('catchLives').textContent = '💛 Nyawa: ' + catchLives;
+                    // Heartbreak = instant game over
+                    catchRunning = false;
+                    catchItems = [];
                 } else {
-                    catchScore++;
-                    document.getElementById('catchScore').textContent = '❤️ Skor: ' + catchScore;
+                    const e = it.emoji;
+                    if (e === '💛') {
+                        catchLives++;
+                        document.getElementById('catchLives').textContent = '💛 Nyawa: ' + catchLives;
+                        document.getElementById('catchInfo').textContent = '+1 Nyawa!';
+                    } else if (e === '💍') {
+                        catchRings++;
+                        if (catchRings % 4 === 0) { catchSpeed = Math.max(0.4, catchSpeed - 0.3); document.getElementById('catchInfo').textContent = '💍x4 Melambat!'; }
+                    } else if (e === '🌹') {
+                        catchRoses++;
+                        if (catchRoses % 3 === 0) { catchSpeed = Math.min(2.5, catchSpeed + 0.3); document.getElementById('catchInfo').textContent = '🌹x3 Lebih Cepat!'; }
+                    } else if (e === '⭐') {
+                        catchStars++;
+                        if (catchStars % 5 === 0) {
+                            catchStarBg = true;
+                            for (let s = 0; s < 40; s++) catchStarParticles.push({x: Math.random()*W, y: Math.random()*H, r: Math.random()*3+1, a: 1});
+                            document.getElementById('catchInfo').textContent = '⭐x5 Star Mode!';
+                        }
+                    } else {
+                        catchScore++;
+                        document.getElementById('catchScore').textContent = '❤️ Skor: ' + catchScore;
+                    }
                 }
                 catchItems.splice(i, 1); continue;
             }
-            // Missed good item
-            if (it.y > H && !it.bad) {
-                catchLives--;
-                document.getElementById('catchLives').textContent = '💛 Nyawa: ' + catchLives;
-                catchItems.splice(i, 1); continue;
-            }
-            
+            if (it.y > H) { catchItems.splice(i, 1); }
         }
         // Draw basket
         ctx.font = '35px serif';
-        ctx.fillText('🧱', catchPadX, H - 15);
+        ctx.fillText('🧯', catchPadX, H - 15);
         ctx.fillText('💐', catchPadX + 5, H - 20);
-        // Game over
-        if (catchLives <= 0) {
-            catchRunning = false;
-            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        // Game over screen
+        if (!catchRunning) {
+            ctx.fillStyle = 'rgba(0,0,0,0.6)';
             ctx.fillRect(0, 0, W, H);
             ctx.fillStyle = '#FFD700';
             ctx.font = 'bold 28px sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText('💔 Game Over!', W/2, H/2 - 20);
             ctx.font = '20px sans-serif';
-            ctx.fillText('Skor: ' + catchScore + ' hati tertangkap!', W/2, H/2 + 15);
+            ctx.fillText('Skor: ' + catchScore + ' hati!', W/2, H/2 + 15);
             ctx.fillStyle = '#fff';
             ctx.font = '16px sans-serif';
-            const msg = catchScore >= 30 ? '🎉 Luar biasa sayang! Kamu juara hatiku!' : catchScore >= 15 ? '💛 Hebat! Kamu penangkap hati sejati!' : '✨ Ayo coba lagi sayang!';
+            const msg = catchScore >= 30 ? '🎉 Luar biasa sayang!' : catchScore >= 15 ? '💛 Hebat! Kamu terbaik!' : '✨ Ayo coba lagi sayang!';
             ctx.fillText(msg, W/2, H/2 + 45);
             ctx.textAlign = 'start';
             return;
@@ -218,10 +221,7 @@
         area.innerHTML = `<div class="score-display">${pct}%</div><div class="love-meter"><div class="love-meter-fill" style="width:0%"></div></div>`;
         const iv = setInterval(() => {
             pct += Math.floor(Math.random() * 5) + 1;
-            if (pct >= 100) {
-                pct = 100; clearInterval(iv);
-                setTimeout(() => { area.innerHTML += '<p style="margin-top:10px">💖 Cinta kita 100% sempurna!</p>'; }, 300);
-            }
+            if (pct >= 100) { pct = 100; clearInterval(iv); setTimeout(() => { area.innerHTML += '<p style="margin-top:10px">💖 Cinta kita 100% sempurna!</p>'; }, 300); }
             area.querySelector('.score-display').textContent = pct + '%';
             area.querySelector('.love-meter-fill').style.width = pct + '%';
         }, 50);
@@ -234,5 +234,6 @@
         document.getElementById('complimentArea').innerHTML = `<div style="font-size:1.3em;padding:20px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#fff;border-radius:15px;margin-top:15px">${c}</div>`;
     }
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
