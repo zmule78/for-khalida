@@ -77,7 +77,7 @@
         <!-- Love Catch Game (NEW - replacing Love Quiz) -->
         <div class="game-card">
             <h2>💕 Love Catch</h2>
-            <p>Tangkap hati yang jatuh sebanyak-banyaknya! Hindari hati yang patah 💔 Gerakkan mouse/sentuh layar!</p>
+            <p>Tangkap ❤️ dapat poin, 💛 tambah nyawa, 💍x4 melambat, 🌹x3 lebih cepat, ⭐x5 efek bintang! Hindari 💔 atau game over!</p>
             <button class="game-btn" onclick="startCatch()">Main Tangkap Hati!</button>
             <div class="game-area" id="catchArea"></div>
         </div>
@@ -132,13 +132,13 @@
     }
 
     // Love Catch Game (replaces Love Quiz)
-    let catchAnim, catchScore, catchLives, catchItems, catchPadX, catchCanvas, catchCtx, catchRunning;
+    let catchAnim, catchScore, catchLives, catchItems, catchPadX, catchCanvas, catchCtx, catchRunning, catchRings, catchRoses, catchStars, catchSpeed, catchStarBg, catchStarParticles;
     function startCatch() {
         const area = document.getElementById('catchArea');
-        area.innerHTML = '<div class="catch-stats"><span id="catchScore">❤️ Skor: 0</span><span id="catchLives">💛 Nyawa: 5</span></div><canvas id="catchCanvas" width="400" height="350"></canvas>';
+        area.innerHTML = '<div class="catch-stats"><span id="catchScore">❤️ Skor: 0</span><span id="catchLives">💛 Nyawa: 3</span><span id="catchInfo">✨</span></div><canvas id="catchCanvas" width="400" height="350"></canvas>';
         catchCanvas = document.getElementById('catchCanvas');
         catchCtx = catchCanvas.getContext('2d');
-        catchScore = 0; catchLives = 5; catchItems = []; catchPadX = 175; catchRunning = true;
+        catchScore = 0; catchLives = 3; catchRings = 0; catchRoses = 0; catchStars = 0; catchSpeed = 1; catchStarBg = false; catchStarParticles = []; catchItems = []; catchPadX = 175; catchRunning = true;
         // Controls
         catchCanvas.addEventListener('mousemove', e => {
             const r = catchCanvas.getBoundingClientRect();
@@ -155,16 +155,16 @@
     function catchLoop() {
         if (!catchRunning) return;
         const ctx = catchCtx, W = 400, H = 350;
-        ctx.clearRect(0, 0, W, H);
+        if(catchStarBg){ ctx.fillStyle='linear-gradient(180deg,#1a0033,#3d0066)'; ctx.fillRect(0,0,W,H); } else { ctx.clearRect(0,0,W,H); }
         // Spawn items
-        if (Math.random() < 0.03 + catchScore * 0.002) {
+        if (Math.random() < 0.025 + catchScore * 0.001) { if (Math.random() < 0.18) { catchItems.push({ x: Math.random()*(W-30), y: -30, speed: (2.5+Math.random()*2)*catchSpeed, bad: true, emoji: '💔' }); } else {
             const bad = Math.random() < 0.25;
             catchItems.push({ x: Math.random() * (W - 30), y: -30, speed: 2 + Math.random() * 2 + catchScore * 0.1, bad: bad, emoji: bad ? '💔' : ['❤️','💛','💕','🌹','💎','✨','🥰'][Math.floor(Math.random()*7)] });
         }
         // Draw & update items
         for (let i = catchItems.length - 1; i >= 0; i--) {
             const it = catchItems[i];
-            it.y += it.speed;
+            it.y += it.speed * catchSpeed;
             ctx.font = '28px serif';
             ctx.fillText(it.emoji, it.x, it.y);
             // Catch check
@@ -184,7 +184,7 @@
                 document.getElementById('catchLives').textContent = '💛 Nyawa: ' + catchLives;
                 catchItems.splice(i, 1); continue;
             }
-            if (it.y > H) { catchItems.splice(i, 1); }
+            
         }
         // Draw basket
         ctx.font = '35px serif';
@@ -198,7 +198,7 @@
             ctx.fillStyle = '#FFD700';
             ctx.font = 'bold 28px sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('Game Over!', W/2, H/2 - 20);
+            ctx.fillText('💔 Game Over!', W/2, H/2 - 20);
             ctx.font = '20px sans-serif';
             ctx.fillText('Skor: ' + catchScore + ' hati tertangkap!', W/2, H/2 + 15);
             ctx.fillStyle = '#fff';
