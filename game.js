@@ -1,273 +1,121 @@
-// Love Calculator
-function calculateLove() {
-    const lovePercentage = 100; // Always 100% for us!
-    const resultDiv = document.getElementById('love-result');
-    resultDiv.innerHTML = `
-        <div class="love-meter">
-            <h3>Our Love is ${lovePercentage}%!</h3>
-            <div class="meter-bar">
-                <div class="meter-fill" style="width: ${lovePercentage}%"></div>
-            </div>
-            <p class="love-message">✨ Perfect Match! Our love is infinite and unbreakable! 💛</p>
-        </div>
-    `;
-}
-
-// Memory Match Game
+// ===== MEMORY MATCH GAME =====
 let memoryCards = [];
 let flippedCards = [];
 let matchedPairs = 0;
 let moves = 0;
-
-const cardEmojis = ['💛', '💕', '💖', '💗', '💓', '💞', '💝', '❤️'];
+const cardEmojis = ['💛', '💖', '🌹', '✨', '🌟', '💋', '🧡', '💕'];
 
 function startMemoryGame() {
-    matchedPairs = 0;
-    moves = 0;
-    flippedCards = [];
-    document.getElementById('moves').textContent = '0';
-    document.getElementById('matches').textContent = '0/8';
-    
-    memoryCards = [...cardEmojis, ...cardEmojis].sort(() => Math.random() - 0.5);
-    
-    const gameBoard = document.getElementById('memory-game');
-    gameBoard.innerHTML = '';
-    
-    memoryCards.forEach((emoji, index) => {
-        const card = document.createElement('div');
-        card.className = 'memory-card';
-        card.dataset.emoji = emoji;
-        card.dataset.index = index;
-        card.innerHTML = '<div class="card-back">?</div>';
-        card.addEventListener('click', flipCard);
-        gameBoard.appendChild(card);
+    matchedPairs = 0; moves = 0; flippedCards = [];
+    const emojis = [...cardEmojis, ...cardEmojis].sort(() => Math.random() - 0.5);
+    const area = document.getElementById('memoryArea');
+    area.innerHTML = '<div class="score-display">Moves: 0</div><div class="memory-grid" id="memGrid"></div>';
+    const grid = document.getElementById('memGrid');
+    emojis.forEach((emoji, i) => {
+        const cell = document.createElement('div');
+        cell.className = 'memory-cell';
+        cell.dataset.emoji = emoji;
+        cell.dataset.index = i;
+        cell.textContent = emoji;
+        cell.onclick = () => flipCard(cell);
+        grid.appendChild(cell);
     });
 }
 
-function flipCard() {
-    if (flippedCards.length >= 2 || this.classList.contains('flipped')) return;
-    
-    this.classList.add('flipped');
-    this.innerHTML = this.dataset.emoji;
-    flippedCards.push(this);
-    
+function flipCard(cell) {
+    if (flippedCards.length >= 2 || cell.classList.contains('flipped') || cell.classList.contains('matched')) return;
+    cell.classList.add('flipped');
+    flippedCards.push(cell);
     if (flippedCards.length === 2) {
         moves++;
-        document.getElementById('moves').textContent = moves;
-        setTimeout(checkMatch, 600);
-    }
-}
-
-function checkMatch() {
-    const [card1, card2] = flippedCards;
-    
-    if (card1.dataset.emoji === card2.dataset.emoji) {
-        card1.classList.add('matched');
-        card2.classList.add('matched');
-        matchedPairs++;
-        document.getElementById('matches').textContent = `${matchedPairs}/8`;
-        
-        if (matchedPairs === 8) {
-            setTimeout(() => {
-                alert(`🎉 You won! You found all pairs in ${moves} moves! 🎉`);
-            }, 300);
+        document.querySelector('.score-display').textContent = 'Moves: ' + moves;
+        if (flippedCards[0].dataset.emoji === flippedCards[1].dataset.emoji) {
+            flippedCards.forEach(c => c.classList.add('matched'));
+            matchedPairs++;
+            flippedCards = [];
+            if (matchedPairs === cardEmojis.length) {
+                setTimeout(() => alert('Selamat sayang! Kamu menang dalam ' + moves + ' langkah! \ud83d\udc9b'), 300);
+            }
+        } else {
+            setTimeout(() => { flippedCards.forEach(c => c.classList.remove('flipped')); flippedCards = []; }, 800);
         }
-    } else {
-        card1.classList.remove('flipped');
-        card2.classList.remove('flipped');
-        card1.innerHTML = '<div class="card-back">?</div>';
-        card2.innerHTML = '<div class="card-back">?</div>';
     }
-    
-    flippedCards = [];
 }
 
-// Fortune Cookie
-const fortunes = [
-    "Your love story will inspire others. Keep cherishing each moment together. 💛",
-    "A beautiful surprise awaits you both in the near future. ✨",
-    "Your bond grows stronger with each passing day. Keep supporting each other. 💕",
-    "Together, you can overcome any challenge. Your love is your strength. 💪",
-    "The best memories are yet to be made. Keep creating magic together. ✨",
-    "Your partner thinks of you more than you know. You're always in their heart. 💝",
-    "A romantic moment is coming your way soon. Be ready! 💖",
-    "Your love will stand the test of time. Forever and always. ♾️",
-    "Trust, respect, and love - you have it all. Treasure it. 💓",
-    "Your relationship is a blessing. Never take it for granted. 🙏"
-];
-
-function getFortune() {
-    const fortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-    const resultDiv = document.getElementById('fortune-result');
-    resultDiv.innerHTML = `
-        <div class="fortune-cookie">
-            <p class="fortune-text">${fortune}</p>
-        </div>
-    `;
-}
-
-// Would You Rather
-const wyrQuestions = [
-    {
-        question: "Would you rather...",
-        options: ["Have a coffee date every day", "Have a movie night every week"]
-    },
-    {
-        question: "Would you rather...",
-        options: ["Travel the world together", "Build a cozy home together"]
-    },
-    {
-        question: "Would you rather...",
-        options: ["Cook dinner together", "Order takeout and cuddle"]
-    },
-    {
-        question: "Would you rather...",
-        options: ["Wake up early for sunrise", "Stay up late for stargazing"]
-    },
-    {
-        question: "Would you rather...",
-        options: ["Dance in the rain", "Build a blanket fort"]
-    }
-];
-
-function getWouldYouRather() {
-    const wyr = wyrQuestions[Math.floor(Math.random() * wyrQuestions.length)];
-    document.getElementById('wyr-question').textContent = wyr.question;
-    
-    const optionsDiv = document.getElementById('wyr-options');
-    optionsDiv.innerHTML = `
-        <button class="wyr-option">${wyr.options[0]}</button>
-        <span class="wyr-or">OR</span>
-        <button class="wyr-option">${wyr.options[1]}</button>
-    `;
-}
-
-// Quiz Game
+// ===== LOVE QUIZ =====
 const quizQuestions = [
-    {
-        question: "What did Faiz win at the conference?",
-        options: ["Silver Medal", "Gold Medal", "Bronze Medal"],
-        correct: 1
-    },
-    {
-        question: "What major is Faiz studying?",
-        options: ["Japanese Literature", "English Literature", "International Relations"],
-        correct: 0
-    },
-    {
-        question: "Which music does Faiz like?",
-        options: ["Denny Caknan", "Banda Neira", "Last Child"],
-        correct: 1
-    },
-    {
-        question: "When did we officially start dating?",
-        options: ["November 1, 2025", "December 1, 2025", "January 1, 2026"],
-        correct: 1
-    },
-    {
-        question: "Where did our love story officially begin?",
-        options: ["East Indies", "Cat Cafe", "Ekara 2"],
-        correct: 1
-    }
+    { q: 'Tanggal jadian kita?', options: ['1 Nov 2025', '1 Des 2025', '1 Jan 2026', '25 Des 2025'], correct: 1 },
+    { q: 'Siapa yang lebih sering ngambek?', options: ['Fikri', 'Khalida', 'Dua-duanya', 'Nggak pernah'], correct: 2 },
+    { q: 'Apa yang bikin hubungan kita spesial?', options: ['Jarak', 'Komunikasi', 'Saling percaya', 'Semua benar'], correct: 3 },
+    { q: 'Emoji favorit kita?', options: ['💛', '❤️', '💖', '🥰'], correct: 0 },
+    { q: 'Apa yang paling penting dalam hubungan?', options: ['Uang', 'Kejujuran', 'Penampilan', 'Status'], correct: 1 }
 ];
-
-let currentQuizQuestion = 0;
+let currentQuestion = 0;
 let quizScore = 0;
 
 function startQuiz() {
-    currentQuizQuestion = 0;
-    quizScore = 0;
-    showQuizQuestion();
+    currentQuestion = 0; quizScore = 0;
+    showQuestion();
 }
 
-function showQuizQuestion() {
-    if (currentQuizQuestion >= quizQuestions.length) {
-        showQuizResult();
+function showQuestion() {
+    const area = document.getElementById('quizArea');
+    if (currentQuestion >= quizQuestions.length) {
+        area.innerHTML = '<div class="score-display">' + quizScore + '/' + quizQuestions.length + ' Benar!</div><p style="color:#666;">'+
+            (quizScore === quizQuestions.length ? 'Sempurna! Kamu memang jodohku 💛' : 'Ayo belajar lagi tentang kita! ✨') + '</p><button class="game-btn" onclick="startQuiz()">Main Lagi</button>';
         return;
     }
-    
-    const question = quizQuestions[currentQuizQuestion];
-    const container = document.getElementById('quiz-container');
-    
-    let optionsHTML = '';
-    question.options.forEach((option, index) => {
-        optionsHTML += `<button class="quiz-option" onclick="checkQuizAnswer(${index})">${option}</button>`;
+    const q = quizQuestions[currentQuestion];
+    let html = '<h3 style="color:#B8860B; margin-bottom:16px;">Pertanyaan ' + (currentQuestion+1) + '</h3><p style="color:#666; font-size:1.1em; margin-bottom:16px;">' + q.q + '</p>';
+    q.options.forEach((opt, i) => {
+        html += '<button class="quiz-option" onclick="answerQuiz(' + i + ', this)">' + opt + '</button>';
     });
-    
-    container.innerHTML = `
-        <div class="quiz-question">
-            <h4>Question ${currentQuizQuestion + 1}/${quizQuestions.length}</h4>
-            <p>${question.question}</p>
-            <div class="quiz-options">${optionsHTML}</div>
-        </div>
-    `;
+    area.innerHTML = html;
 }
 
-function checkQuizAnswer(selected) {
-    const question = quizQuestions[currentQuizQuestion];
-    if (selected === question.correct) {
-        quizScore++;
-        alert('✅ Correct! You know me well!');
-    } else {
-        alert('❌ Oops! The correct answer was: ' + question.options[question.correct]);
-    }
-    currentQuizQuestion++;
-    showQuizQuestion();
+function answerQuiz(idx, btn) {
+    const correct = quizQuestions[currentQuestion].correct;
+    const btns = document.querySelectorAll('.quiz-option');
+    btns.forEach(b => b.onclick = null);
+    if (idx === correct) { btn.classList.add('correct'); quizScore++; }
+    else { btn.classList.add('wrong'); btns[correct].classList.add('correct'); }
+    currentQuestion++;
+    setTimeout(showQuestion, 1000);
 }
 
-function showQuizResult() {
-    const container = document.getElementById('quiz-container');
-    const percentage = (quizScore / quizQuestions.length) * 100;
-    
-    let message = '';
-    if (percentage === 100) {
-        message = 'Perfect! You know me inside out! 💕';
-    } else if (percentage >= 60) {
-        message = 'Great job! You know me well! 💛';
-    } else {
-        message = 'We should spend more time together! 😊';
-    }
-    
-    container.innerHTML = `
-        <div class="quiz-result">
-            <h3>Quiz Complete!</h3>
-            <p class="quiz-score">Score: ${quizScore}/${quizQuestions.length}</p>
-            <p class="quiz-message">${message}</p>
-            <button class="game-btn" onclick="startQuiz()">Try Again</button>
-        </div>
-    `;
+// ===== LOVE CALCULATOR =====
+function calculateLove() {
+    const area = document.getElementById('loveCalcArea');
+    let pct = 0;
+    area.innerHTML = '<div class="love-meter"><div class="love-meter-fill" id="loveFill" style="width:0%"></div></div><div class="score-display" id="lovePct">0%</div>';
+    const interval = setInterval(() => {
+        pct += 2;
+        document.getElementById('loveFill').style.width = pct + '%';
+        document.getElementById('lovePct').textContent = pct + '%';
+        if (pct >= 100) {
+            clearInterval(interval);
+            area.innerHTML += '<p style="color:#B8860B;font-size:1.2em;margin-top:10px;">Cinta kita 100%! Sempurna!</p>';
+        }
+    }, 30);
 }
 
-// Virtual Hugs
-let hugCount = 0;
+// ===== COMPLIMENT GENERATOR =====
+const compliments = [
+    'Kamu cantiknya nggak ada tandingannya!',
+    'Senyummu bisa bikin hariku 1000x lebih baik',
+    'Kamu adalah alasan kenapa aku percaya pada keajaiban',
+    'Setiap hari bersamamu terasa seperti hari terbaik',
+    'Kamu itu spesial banget, tau nggak?',
+    'Dunia jadi lebih indah sejak ada kamu',
+    'Matamu itu kayak bintang, selalu bersinar',
+    'Nggak ada kata yang cukup untuk gambarkan betapa beruntungnya aku',
+    'Kamu adalah jawaban dari setiap doaku',
+    'Tawa kamu itu musik paling indah yang pernah aku dengar',
+    'Kamu bikin aku jadi orang yang lebih baik setiap harinya',
+];
 
-function sendHug() {
-    hugCount++;
-    document.getElementById('hug-count').textContent = hugCount;
-    
-    // Create floating hug animation
-    const hug = document.createElement('div');
-    hug.textContent = '🤗';
-    hug.style.position = 'fixed';
-    hug.style.left = Math.random() * window.innerWidth + 'px';
-    hug.style.top = '100vh';
-    hug.style.fontSize = '3rem';
-    hug.style.transition = 'all 2s ease-out';
-    hug.style.pointerEvents = 'none';
-    hug.style.zIndex = '10000';
-    document.body.appendChild(hug);
-    
-    setTimeout(() => {
-        hug.style.top = '-100px';
-        hug.style.opacity = '0';
-    }, 100);
-    
-    setTimeout(() => {
-        hug.remove();
-    }, 2000);
-}
-
-// Initialize memory game on page load
-if (document.getElementById('memory-game')) {
-    startMemoryGame();
+function generateCompliment() {
+    const area = document.getElementById('complimentArea');
+    const random = compliments[Math.floor(Math.random() * compliments.length)];
+    area.innerHTML = '<div style="padding:20px;background:linear-gradient(135deg,#FFD700,#FFA500);border-radius:16px;color:#fff;font-size:1.3em;margin-top:15px;">' + random + '</div><button class="game-btn" onclick="generateCompliment()" style="margin-top:15px;">Lagi dong!</button>';
 }

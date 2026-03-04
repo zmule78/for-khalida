@@ -3,19 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Memories 📸</title>
+    <title>Kenangan Kita 📸</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="pages.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .mem-hero { text-align: center; padding: 100px 20px 60px; background: linear-gradient(135deg, #FFF8DC 0%, #FFFACD 50%, #FFE4B5 100%); }
+        .mem-hero h1 { font-size: 2.8em; color: #B8860B; }
+        .mem-hero p { font-size: 1.2em; color: #DAA520; max-width: 600px; margin: 10px auto 0; }
+        .gallery-section { max-width: 1000px; margin: 0 auto; padding: 50px 20px; }
+        .gallery-section h2 { text-align: center; color: #B8860B; font-size: 1.8em; margin-bottom: 30px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .gallery-item { position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(255,215,0,0.15); border: 2px solid rgba(255,215,0,0.2); transition: transform 0.3s; cursor: pointer; background: #FFF8DC; }
+        .gallery-item:hover { transform: scale(1.03); }
+        .gallery-item img { width: 100%; height: 250px; object-fit: cover; display: block; }
+        .gallery-item .caption { padding: 16px; text-align: center; }
+        .gallery-item .caption h3 { color: #B8860B; font-size: 1em; margin-bottom: 4px; }
+        .gallery-item .caption p { color: #888; font-size: 0.85em; }
+        .memory-quote { max-width: 700px; margin: 40px auto; text-align: center; padding: 30px; background: rgba(255,248,220,0.95); border-radius: 20px; border: 2px dashed #FFD700; }
+        .memory-quote p { color: #B8860B; font-size: 1.2em; font-style: italic; line-height: 1.6; }
+        .upload-hint { text-align: center; padding: 40px 20px; color: #DAA520; font-size: 1em; }
+        @media (max-width: 768px) { .mem-hero h1 { font-size: 2em; } .gallery-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
     <audio id="bgMusic" loop>
-        <source src="music/romantic.mp3" type="audio/mpeg">
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
     </audio>
-    
-    <button class="music-control" id="musicToggle">
-        <i class="fas fa-music"></i>
-    </button>
+    <button class="music-control" id="musicToggle"><i class="fas fa-music"></i></button>
 
     <nav class="navbar">
         <div class="nav-container">
@@ -24,147 +38,83 @@
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
                 <li><a href="memories.html" class="active"><i class="fas fa-images"></i> Memories</a></li>
-                <li><a href="favorites.html"><i class="fas fa-star"></i> Her Favorites</a></li>
-                <li><a href="game.html"><i class="fas fa-gamepad"></i> Play Together</a></li>
-                <li><a href="messages.html"><i class="fas fa-envelope-heart"></i> Messages</a></li>
+                <li><a href="messages.html"><i class="fas fa-envelope"></i> Messages</a></li>
+                <li><a href="favorites.html"><i class="fas fa-star"></i> Favorites</a></li>
+                <li><a href="game.html"><i class="fas fa-gamepad"></i> Games</a></li>
             </ul>
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
-    <div class="page-header">
-        <h1>Our Beautiful Memories 📸</h1>
-        <p>Capturing moments that matter</p>
+    <section class="mem-hero">
+        <h1>📸 Kenangan Indah Kita 📸</h1>
+        <p>Setiap foto menyimpan cerita, setiap momen adalah harta yang tak ternilai</p>
+    </section>
+
+    <div class="memory-quote">
+        <p>"Kenangan terbaik adalah yang kita buat bersama. Dan aku ingin membuat jutaan kenangan lagi bersamamu." 💛</p>
     </div>
 
     <section class="gallery-section">
-        <div class="gallery-intro">
-            <p>Every photo tells a story of our journey together. From thesis struggles to coffee dates, from victories to quiet moments - each memory is precious.</p>
-        </div>
-
-        <div class="photo-gallery">
-            <!-- Photos will be loaded from Google Drive -->
-            <div class="photo-placeholder">
-                <i class="fas fa-image"></i>
-                <p>Our Photos Loading...</p>
-                <small>Images from our Google Drive will appear here</small>
+        <h2>✨ Momen Berharga ✨</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/FFD700/fff?text=Momen+1" alt="Memory 1">
+                <div class="caption">
+                    <h3>💛 Hari Pertama</h3>
+                    <p>Awal dari segalanya yang indah</p>
+                </div>
             </div>
-        </div>
-
-        <div class="memory-cards">
-            <div class="memory-card">
-                <div class="memory-icon">☕</div>
-                <h3>Coffee Shop Chronicles</h3>
-                <p>Countless hours at East Indies, Ekara 2, and our favorite cafes. Working on our thesis, sharing dreams, and falling deeper in love with every cup of coffee.</p>
-                <span class="memory-date">July - December 2025</span>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/FFA500/fff?text=Momen+2" alt="Memory 2">
+                <div class="caption">
+                    <h3>🌟 Tawa Bersama</h3>
+                    <p>Ketawa bareng sampai perut sakit</p>
+                </div>
             </div>
-
-            <div class="memory-card">
-                <div class="memory-icon">🏆</div>
-                <h3>Gold Medal Victory</h3>
-                <p>When I won the gold medal at IICYMS2025, you were the first person I wanted to share it with. Your celebration made the victory even sweeter.</p>
-                <span class="memory-date">July 23, 2025</span>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/FF69B4/fff?text=Momen+3" alt="Memory 3">
+                <div class="caption">
+                    <h3>🌸 Jalan-Jalan</h3>
+                    <p>Menjelajah dunia berdua</p>
+                </div>
             </div>
-
-            <div class="memory-card">
-                <div class="memory-icon">📚</div>
-                <h3>Thesis Journey</h3>
-                <p>Supporting each other through the toughest academic challenge. Late-night discussions, mutual encouragement, and celebrating every milestone together.</p>
-                <span class="memory-date">July - August 2025</span>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/FFB6C1/fff?text=Momen+4" alt="Memory 4">
+                <div class="caption">
+                    <h3>☕ Quality Time</h3>
+                    <p>Ngopi bareng, ngobrol sampai lupa waktu</p>
+                </div>
             </div>
-
-            <div class="memory-card">
-                <div class="memory-icon">🐱</div>
-                <h3>The Cat Cafe</h3>
-                <p>December 1st, 2025 - The day I confessed my feelings. Surrounded by cats, my heart racing, and then... you said yes! Our forever started here.</p>
-                <span class="memory-date">December 1, 2025</span>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/FFFACD/B8860B?text=Momen+5" alt="Memory 5">
+                <div class="caption">
+                    <h3>🌙 Malam Indah</h3>
+                    <p>Langit malam pun jadi saksi cinta kita</p>
+                </div>
             </div>
-
-            <div class="memory-card">
-                <div class="memory-icon">🌧️</div>
-                <h3>Rainy Night Ride</h3>
-                <p>That night when we rushed home in the rain after a long study session. I worried about your laptop getting wet, but we made it safely. Simple moments that mean everything.</p>
-                <span class="memory-date">August 11, 2025</span>
-            </div>
-
-            <div class="memory-card">
-                <div class="memory-icon">🍰</div>
-                <h3>Sweet Surprises</h3>
-                <p>When you brought me chocomory and mentos cool because you knew I'd love them. It's the thoughtful gestures that make my heart full.</p>
-                <span class="memory-date">December 2025</span>
-            </div>
-
-            <div class="memory-card">
-                <div class="memory-icon">🎵</div>
-                <h3>Music & Moments</h3>
-                <p>Discovering Kunto Aji's new album together, sharing playlists, talking about Banda Neira lyrics. Music sounds better when I'm with you.</p>
-                <span class="memory-date">Ongoing</span>
-            </div>
-
-            <div class="memory-card">
-                <div class="memory-icon">🌟</div>
-                <h3>Future Dreams</h3>
-                <p>All those conversations about our dreams, our plans, our future together. Every day with you feels like a step towards our beautiful tomorrow.</p>
-                <span class="memory-date">Forever</span>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/DDA0DD/fff?text=Momen+6" alt="Memory 6">
+                <div class="caption">
+                    <h3>🎁 Hari Spesial</h3>
+                    <p>Setiap hari bersamamu adalah hari spesial</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="favorite-moments">
-        <h2>My Favorite Things About Our Time Together</h2>
-        <div class="moments-grid">
-            <div class="moment-item">
-                <i class="fas fa-laugh"></i>
-                <p>Your laugh when I say something silly</p>
-            </div>
-            <div class="moment-item">
-                <i class="fas fa-moon"></i>
-                <p>Our late-night conversations</p>
-            </div>
-            <div class="moment-item">
-                <i class="fas fa-hand-holding-heart"></i>
-                <p>The way you support my dreams</p>
-            </div>
-            <div class="moment-item">
-                <i class="fas fa-book-reader"></i>
-                <p>Working on thesis side by side</p>
-            </div>
-            <div class="moment-item">
-                <i class="fas fa-praying-hands"></i>
-                <p>When you pray for my success</p>
-            </div>
-            <div class="moment-item">
-                <i class="fas fa-coffee"></i>
-                <p>Coffee dates that turn into hours</p>
-            </div>
-        </div>
-    </section>
+    <div class="upload-hint">
+        <i class="fas fa-camera" style="font-size:2em; margin-bottom:10px; display:block;"></i>
+        <p>Foto-foto akan terus bertambah seiring perjalanan cinta kita 💛</p>
+    </div>
 
-    <footer>
-        <p>Made with 💛 by Faiz for Khalida</p>
-        <p>© 2025 - Forever & Always</p>
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Made with 💛 by Fikri for Khalida</p>
+            <p>Selamanya milikmu • 2025</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        // Load photos from Google Drive
-        // Note: You'll need to make photos public and add their direct URLs here
-        const photoGallery = document.querySelector('.photo-gallery');
-        
-        // Example: Add your Google Drive photo URLs here
-        const photos = [
-            // Add your photo URLs from Google Drive
-            // Format: 'https://drive.google.com/uc?export=view&id=YOUR_FILE_ID'
-        ];
-        
-        if (photos.length > 0) {
-            photoGallery.innerHTML = '';
-            photos.forEach((photo, index) => {
-                const photoDiv = document.createElement('div');
-                photoDiv.className = 'photo-item';
-                photoDiv.innerHTML = `<img src="${photo}" alt="Memory ${index + 1}" loading="lazy">`;
-                photoGallery.appendChild(photoDiv);
-            });
-        }
-    </script>
 </body>
 </html>

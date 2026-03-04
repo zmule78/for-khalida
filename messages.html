@@ -3,19 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messages for Khalida 💌</title>
+    <title>Pesan Cinta 💌</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="pages.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .msg-hero { text-align: center; padding: 100px 20px 60px; background: linear-gradient(135deg, #FFF8DC 0%, #FFFACD 50%, #FFE4B5 100%); }
+        .msg-hero h1 { font-size: 2.8em; color: #B8860B; }
+        .msg-hero p { font-size: 1.2em; color: #DAA520; max-width: 600px; margin: 10px auto 0; }
+        .letters-section { max-width: 800px; margin: 0 auto; padding: 50px 20px; }
+        .letters-section h2 { text-align: center; color: #B8860B; font-size: 1.8em; margin-bottom: 30px; }
+        .love-letter { background: rgba(255,248,220,0.95); border-radius: 20px; padding: 30px; margin-bottom: 24px; border: 1px solid rgba(255,215,0,0.3); position: relative; box-shadow: 0 4px 20px rgba(255,215,0,0.1); }
+        .love-letter::before { content: '\2764'; position: absolute; top: -12px; left: 30px; background: #FFD700; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .love-letter .letter-date { color: #DAA520; font-size: 0.85em; font-weight: 600; margin-bottom: 8px; }
+        .love-letter h3 { color: #B8860B; margin-bottom: 12px; font-size: 1.2em; }
+        .love-letter p { color: #666; line-height: 1.8; font-size: 1em; }
+        .daily-quote-box { max-width: 700px; margin: 40px auto; text-align: center; padding: 30px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 20px; color: #fff; }
+        .daily-quote-box h2 { margin-bottom: 16px; font-size: 1.5em; }
+        .daily-quote-box #quote-text { font-size: 1.2em; font-style: italic; line-height: 1.6; margin-bottom: 10px; }
+        .daily-quote-box #quote-author { font-size: 0.9em; opacity: 0.9; }
+        .rss-section { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .rss-section h2 { text-align: center; color: #B8860B; font-size: 1.5em; margin-bottom: 20px; }
+        .rss-feed { background: rgba(255,248,220,0.95); border-radius: 16px; padding: 20px; border: 1px solid rgba(255,215,0,0.2); }
+        .rss-item { padding: 12px 0; border-bottom: 1px solid rgba(255,215,0,0.15); }
+        .rss-item:last-child { border-bottom: none; }
+        .rss-item a { color: #B8860B; text-decoration: none; font-weight: 500; }
+        .rss-item a:hover { color: #FFD700; }
+        .rss-item .rss-date { color: #999; font-size: 0.8em; }
+        @media (max-width: 768px) { .msg-hero h1 { font-size: 2em; } }
+    </style>
 </head>
 <body>
     <audio id="bgMusic" loop>
-        <source src="music/romantic.mp3" type="audio/mpeg">
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
     </audio>
-    
-    <button class="music-control" id="musicToggle">
-        <i class="fas fa-music"></i>
-    </button>
+    <button class="music-control" id="musicToggle"><i class="fas fa-music"></i></button>
 
     <nav class="navbar">
         <div class="nav-container">
@@ -24,126 +45,70 @@
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
                 <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
-                <li><a href="favorites.html"><i class="fas fa-star"></i> Her Favorites</a></li>
-                <li><a href="game.html"><i class="fas fa-gamepad"></i> Play Together</a></li>
-                <li><a href="messages.html" class="active"><i class="fas fa-envelope-heart"></i> Messages</a></li>
+                <li><a href="messages.html" class="active"><i class="fas fa-envelope"></i> Messages</a></li>
+                <li><a href="favorites.html"><i class="fas fa-star"></i> Favorites</a></li>
+                <li><a href="game.html"><i class="fas fa-gamepad"></i> Games</a></li>
             </ul>
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
-    <div class="page-header">
-        <h1>Messages From My Heart 💌</h1>
-        <p>Words I want you to always remember</p>
+    <section class="msg-hero">
+        <h1>💌 Pesan Cinta 💌</h1>
+        <p>Kata-kata yang aku tulis dari hati, khusus untukmu seorang</p>
+    </section>
+
+    <!-- Daily Quote -->
+    <div class="daily-quote-box">
+        <h2>✨ Quote Hari Ini ✨</h2>
+        <p id="quote-text">Loading...</p>
+        <p id="quote-author"></p>
     </div>
 
-    <section class="messages-section">
-        <div class="love-letter main-letter">
-            <div class="letter-header">
-                <i class="fas fa-heart"></i>
-                <h2>To My Dearest Khalida</h2>
-                <span class="letter-date">Forever</span>
-            </div>
-            <div class="letter-content">
-                <p>Sayang,</p>
-                
-                <p>There aren't enough words in any language - not in Indonesian, not in English, not even in Japanese - to express how much you mean to me. But let me try.</p>
-                
-                <p>From the moment we started our thesis journey together, I knew there was something special about you. Your dedication, your kindness, your brilliant mind - everything about you captivated me. You weren't just my study partner; you became my best friend, my confidant, my inspiration.</p>
-                
-                <p>I remember those long nights at East Indies, working on our research, sharing our dreams and fears. I remember how you celebrated my gold medal win with such genuine joy. I remember how you always had encouraging words when I felt overwhelmed. Every moment with you felt right.</p>
-                
-                <p>When I finally told you how I felt at that cat cafe on December 1st, 2025, my heart was racing. And when you said yes, I felt like the luckiest person in the world. I still do, every single day.</p>
-                
-                <p>You make me want to be better. You inspire me to work harder, dream bigger, love deeper. Your strength amazes me, your kindness humbles me, and your love completes me.</p>
-                
-                <p>Thank you for being you. Thank you for choosing me. Thank you for every smile, every laugh, every moment we share. Thank you for supporting my dreams and letting me support yours. Thank you for making ordinary days extraordinary.</p>
-                
-                <p>I promise to always be there for you, to support your dreams, to celebrate your victories, and to comfort you in difficult times. I promise to make you smile, to keep you safe, and to love you with everything I have.</p>
-                
-                <p>This website is just a small token of my love for you. Every page, every word, every feature was created with you in mind. I wanted to create something that captures how special you are and how much you mean to me.</p>
-                
-                <p>I love you, Khalida. More than yesterday, less than tomorrow. Forever and always.</p>
-                
-                <p class="signature">With all my love,<br>Your Faiz 💛</p>
-            </div>
+    <!-- Love Letters -->
+    <section class="letters-section">
+        <h2>💍 Surat Cinta Untukmu</h2>
+        <div class="love-letter">
+            <div class="letter-date">Surat Pertama</div>
+            <h3>Untuk Khalida Tersayang</h3>
+            <p>Hai sayang, ini pertama kalinya aku menulis surat cinta. Mungkin kata-kataku tidak sempurna, tapi perasaanku untukmu sangat nyata. Kamu adalah alasan kenapa aku tersenyum setiap hari. Terima kasih sudah menjadi bagian terindah dalam hidupku. Aku berjanji akan selalu berusaha menjadi yang terbaik untukmu. 💛</p>
         </div>
-
-        <div class="message-cards">
-            <div class="message-card">
-                <i class="fas fa-sun"></i>
-                <h3>Good Morning Message</h3>
-                <p>"Good morning, my sunshine! I hope today brings you as much joy as you bring to my life. Remember, you're amazing and you can handle anything. Have a wonderful day, sayang! 🌞"</p>
-            </div>
-
-            <div class="message-card">
-                <i class="fas fa-moon"></i>
-                <h3>Good Night Message</h3>
-                <p>"Good night, my love. As you close your eyes, know that you're the last thing on my mind tonight and the first thing I'll think of tomorrow. Sweet dreams, Khalida. 🌙✨"</p>
-            </div>
-
-            <div class="message-card">
-                <i class="fas fa-battery-full"></i>
-                <h3>When You Need Energy</h3>
-                <p>"I know you're tired, sayang. But remember how strong you are. You've overcome so much already. Take a deep breath, have some coffee, and keep going. I believe in you! 💪"</p>
-            </div>
-
-            <div class="message-card">
-                <i class="fas fa-sad-tear"></i>
-                <h3>When You're Feeling Down</h3>
-                <p>"Hey, it's okay to not be okay. I'm here for you, always. You don't have to be strong all the time. Lean on me, share your burdens. We're in this together, sayang. 🤗"</p>
-            </div>
-
-            <div class="message-card">
-                <i class="fas fa-graduation-cap"></i>
-                <h3>Before Important Events</h3>
-                <p>"You've prepared well, you're capable, and you're ready. Trust yourself, Khalida. I'm so proud of you and I'm praying for your success. Go show them how amazing you are! 🌟"</p>
-            </div>
-
-            <div class="message-card">
-                <i class="fas fa-trophy"></i>
-                <h3>Celebrating Your Success</h3>
-                <p>"I knew you could do it! Your hard work paid off, and I'm so incredibly proud of you. You inspire me every day. Let's celebrate soon! 🎉"</p>
-            </div>
-
-            <div class="message-card">
-                <i class="fas fa-smile-beam"></i>
-                <h3>Just Because</h3>
-                <p>"No special reason for this message. Just wanted to remind you that you're loved, you're appreciated, and you're special. You make my world brighter just by being in it. 💛"</p>
-            </div>
-
-            <div class="message-card">
-                <i class="fas fa-infinity"></i>
-                <h3>Forever Promise</h3>
-                <p>"No matter what happens, no matter where life takes us, my love for you will remain constant. You're my forever, Khalida. Always and eternally. ♾️💕"</p>
-            </div>
+        <div class="love-letter">
+            <div class="letter-date">Surat Kedua</div>
+            <h3>Hal Kecil yang Aku Suka Darimu</h3>
+            <p>Kamu tau nggak? Aku suka cara kamu ketawa, cara kamu cerita dengan semangat, cara kamu marah yang lucu, dan cara kamu perhatian tanpa diminta. Setiap hal kecil tentangmu itu berharga banget buat aku. Jangan pernah berubah ya, tetap jadi Khalida yang aku cintai. ✨</p>
         </div>
+        <div class="love-letter">
+            <div class="letter-date">Surat Ketiga</div>
+            <h3>Tentang Masa Depan Kita</h3>
+            <p>Aku sering membayangkan masa depan kita berdua. Bangun pagi bareng, sarapan bareng, jalan-jalan ke tempat baru, dan tua bersama. Semua itu terasa sangat indah kalau bersamamu. Aku nggak tau apa yang akan terjadi besok, tapi aku tau satu hal pasti - aku ingin menjalaninya bersamamu. 💖</p>
+        </div>
+    </section>
 
-        <div class="quote-section">
-            <h2>Quotes That Remind Me of Us</h2>
-            <div class="quotes-grid">
-                <div class="quote-card">
-                    <p>"The best thing to hold onto in life is each other."</p>
-                    <span>- Audrey Hepburn</span>
-                </div>
-                <div class="quote-card">
-                    <p>"You are my today and all of my tomorrows."</p>
-                    <span>- Leo Christopher</span>
-                </div>
-                <div class="quote-card">
-                    <p>"In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine."</p>
-                    <span>- Maya Angelou</span>
-                </div>
-                <div class="quote-card">
-                    <p>"I fell in love with you because you loved me when I couldn't love myself."</p>
-                    <span>- Unknown</span>
-                </div>
+    <!-- RSS Feed Section -->
+    <section class="rss-section">
+        <h2>📡 Inspirasi Cinta dari Seluruh Dunia</h2>
+        <div class="rss-feed" id="rssFeed">
+            <div class="rss-item">
+                <a href="#">💕 "Cinta sejati tidak datang dengan sempurna, tapi membuat segalanya terasa sempurna"</a>
+                <div class="rss-date">Inspirasi Harian</div>
+            </div>
+            <div class="rss-item">
+                <a href="#">🌹 "Dalam setiap detik bersamamu, aku menemukan alasan baru untuk jatuh cinta"</a>
+                <div class="rss-date">Love Quote</div>
+            </div>
+            <div class="rss-item">
+                <a href="#">✨ "Kamu bukan hanya cintaku, kamu adalah rumahku"</a>
+                <div class="rss-date">Daily Wisdom</div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>Made with 💛 by Faiz for Khalida</p>
-        <p>© 2025 - Forever & Always</p>
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Made with 💛 by Fikri for Khalida</p>
+            <p>Selamanya milikmu • 2025</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>

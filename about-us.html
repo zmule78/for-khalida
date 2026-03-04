@@ -3,20 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Our Story 💛</title>
+    <title>Tentang Kita 💛 Our Story</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="pages.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .story-timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 20px 0; }
+        .story-timeline::before { content: ''; position: absolute; left: 50%; width: 3px; height: 100%; background: linear-gradient(to bottom, #FFD700, #FFA500, #FF69B4); transform: translateX(-50%); }
+        .timeline-item { padding: 20px 40px; position: relative; width: 50%; box-sizing: border-box; }
+        .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+        .timeline-item:nth-child(even) { left: 50%; text-align: left; }
+        .timeline-item::before { content: '\2764'; position: absolute; top: 30px; font-size: 20px; color: #FFD700; z-index: 2; }
+        .timeline-item:nth-child(odd)::before { right: -12px; }
+        .timeline-item:nth-child(even)::before { left: -12px; }
+        .timeline-card { background: rgba(255,248,220,0.95); border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(255,215,0,0.2); border: 1px solid rgba(255,215,0,0.3); transition: transform 0.3s, box-shadow 0.3s; }
+        .timeline-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(255,215,0,0.4); }
+        .timeline-card h3 { color: #B8860B; margin-bottom: 8px; font-size: 1.1em; }
+        .timeline-card p { color: #666; font-size: 0.95em; line-height: 1.6; }
+        .timeline-card .date { color: #DAA520; font-weight: 600; font-size: 0.85em; margin-bottom: 8px; display: block; }
+        .about-hero { text-align: center; padding: 100px 20px 60px; background: linear-gradient(135deg, #FFF8DC 0%, #FFFACD 50%, #FFE4B5 100%); }
+        .about-hero h1 { font-size: 2.8em; color: #B8860B; margin-bottom: 16px; }
+        .about-hero p { font-size: 1.2em; color: #DAA520; max-width: 600px; margin: 0 auto; }
+        .couple-section { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; padding: 60px 20px; max-width: 900px; margin: 0 auto; }
+        .couple-card { flex: 1; min-width: 280px; max-width: 400px; background: rgba(255,248,220,0.95); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 4px 20px rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.2); }
+        .couple-card img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #FFD700; margin-bottom: 16px; }
+        .couple-card h2 { color: #B8860B; margin-bottom: 8px; }
+        .couple-card p { color: #666; line-height: 1.6; }
+        .love-facts { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+        .love-facts h2 { text-align: center; color: #B8860B; font-size: 2em; margin-bottom: 30px; }
+        .fact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .fact-card { background: rgba(255,248,220,0.95); border-radius: 16px; padding: 24px; text-align: center; border: 1px solid rgba(255,215,0,0.2); transition: transform 0.3s; }
+        .fact-card:hover { transform: scale(1.05); }
+        .fact-card i { font-size: 2em; color: #FFD700; margin-bottom: 12px; }
+        .fact-card h3 { color: #B8860B; margin-bottom: 8px; }
+        .fact-card p { color: #666; font-size: 0.9em; }
+        .promise-section { max-width: 700px; margin: 0 auto; padding: 60px 20px; text-align: center; }
+        .promise-section h2 { color: #B8860B; font-size: 2em; margin-bottom: 30px; }
+        .promise-list { list-style: none; padding: 0; }
+        .promise-list li { padding: 12px 0; color: #666; font-size: 1.05em; border-bottom: 1px dashed rgba(255,215,0,0.3); }
+        .promise-list li i { color: #FFD700; margin-right: 10px; }
+        @media (max-width: 768px) {
+            .timeline-item { width: 100% !important; left: 0 !important; text-align: left !important; padding-left: 40px; }
+            .story-timeline::before { left: 15px; }
+            .timeline-item::before { left: 4px !important; right: auto !important; }
+            .about-hero h1 { font-size: 2em; }
+        }
+    </style>
 </head>
 <body>
+    <!-- Music -->
     <audio id="bgMusic" loop>
-        <source src="music/romantic.mp3" type="audio/mpeg">
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
     </audio>
-    
-    <button class="music-control" id="musicToggle">
-        <i class="fas fa-music"></i>
-    </button>
+    <button class="music-control" id="musicToggle"><i class="fas fa-music"></i></button>
 
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">F & K 💛</div>
@@ -24,123 +64,115 @@
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="about-us.html" class="active"><i class="fas fa-heart"></i> About Us</a></li>
                 <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
-                <li><a href="favorites.html"><i class="fas fa-star"></i> Her Favorites</a></li>
-                <li><a href="game.html"><i class="fas fa-gamepad"></i> Play Together</a></li>
-                <li><a href="messages.html"><i class="fas fa-envelope-heart"></i> Messages</a></li>
+                <li><a href="messages.html"><i class="fas fa-envelope"></i> Messages</a></li>
+                <li><a href="favorites.html"><i class="fas fa-star"></i> Favorites</a></li>
+                <li><a href="game.html"><i class="fas fa-gamepad"></i> Games</a></li>
             </ul>
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
-    <div class="page-header">
-        <h1>Our Love Story 💕</h1>
-        <p>How it all began...</p>
-    </div>
+    <!-- Hero -->
+    <section class="about-hero">
+        <h1>💛 Cerita Kita 💛</h1>
+        <p>Setiap momen bersamamu adalah halaman terindah dalam buku kehidupanku</p>
+    </section>
 
-    <section class="content-section">
-        <div class="timeline">
+    <!-- Couple Cards -->
+    <section class="couple-section">
+        <div class="couple-card">
+            <img src="https://via.placeholder.com/150/FFD700/fff?text=F" alt="Fikri">
+            <h2>👤 Fikri</h2>
+            <p>Seorang yang jatuh cinta setiap hari kepada Khalida. Yang selalu berusaha menjadi yang terbaik untukmu.</p>
+        </div>
+        <div class="couple-card">
+            <img src="https://via.placeholder.com/150/FF69B4/fff?text=K" alt="Khalida">
+            <h2>👧 Khalida</h2>
+            <p>Wanita yang luar biasa, cerdas, cantik, dan penuh kasih sayang. Sumber kebahagiaanku setiap hari.</p>
+        </div>
+    </section>
+
+    <!-- Love Facts -->
+    <section class="love-facts">
+        <h2>✨ Fakta Cinta Kita ✨</h2>
+        <div class="fact-grid">
+            <div class="fact-card">
+                <i class="fas fa-calendar-heart"></i>
+                <h3>1 Desember 2025</h3>
+                <p>Hari dimana perjalanan indah kita dimulai</p>
+            </div>
+            <div class="fact-card">
+                <i class="fas fa-coffee"></i>
+                <h3>Quality Time</h3>
+                <p>Ngobrol berjam-jam tanpa bosan, dari hal serius sampai receh</p>
+            </div>
+            <div class="fact-card">
+                <i class="fas fa-book"></i>
+                <h3>Saling Support</h3>
+                <p>Selalu mendukung satu sama lain dalam setiap langkah</p>
+            </div>
+            <div class="fact-card">
+                <i class="fas fa-smile"></i>
+                <h3>Tawa Bersama</h3>
+                <p>Setiap candaan kecil menjadi momen berharga</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section style="padding: 60px 20px;">
+        <h2 style="text-align:center; color:#B8860B; font-size:2em; margin-bottom:30px;">📝 Perjalanan Kita</h2>
+        <div class="story-timeline">
             <div class="timeline-item">
-                <div class="timeline-icon">
-                    <i class="fas fa-book"></i>
-                </div>
-                <div class="timeline-content">
-                    <h3>July 2025 - The Beginning</h3>
-                    <p>It all started with our thesis journey. We were just friends, helping each other through the challenging process of writing our final projects. Little did we know, Allah had other plans for us. 📚</p>
+                <div class="timeline-card">
+                    <span class="date">Awal Perkenalan</span>
+                    <h3>Pertama Kenal</h3>
+                    <p>Saat pertama kali kita ngobrol, ada sesuatu yang berbeda. Rasanya nyaman dan hangat.</p>
                 </div>
             </div>
-
             <div class="timeline-item">
-                <div class="timeline-icon">
-                    <i class="fas fa-coffee"></i>
-                </div>
-                <div class="timeline-content">
-                    <h3>Coffee Dates & Late Night Talks</h3>
-                    <p>Our endless coffee sessions at East Indies, Ekara 2, and various cafes. We talked about everything - from counter-narrative strategies to life dreams. Every moment together felt natural and comfortable. ☕</p>
+                <div class="timeline-card">
+                    <span class="date">Makin Dekat</span>
+                    <h3>Obrolan Tanpa Henti</h3>
+                    <p>Chat dari pagi sampai malam, topik nggak pernah habis. Dari curhat sampai kirim meme.</p>
                 </div>
             </div>
-
             <div class="timeline-item">
-                <div class="timeline-icon">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <div class="timeline-content">
-                    <h3>Supporting Each Other's Success</h3>
-                    <p>When I won the gold medal at the conference, you celebrated with me. When you defended your thesis, I was there cheering you on. We became each other's biggest supporters. 🏆</p>
+                <div class="timeline-card">
+                    <span class="date">Momen Spesial</span>
+                    <h3>Jadian!</h3>
+                    <p>1 Desember 2025 - Hari yang mengubah segalanya. Resmi menjadi milikmu. 💛</p>
                 </div>
             </div>
-
             <div class="timeline-item">
-                <div class="timeline-icon">
-                    <i class="fas fa-heart-pulse"></i>
-                </div>
-                <div class="timeline-content">
-                    <h3>December 1st, 2025 - The Day Everything Changed</h3>
-                    <p>At the cat cafe, I finally gathered the courage to tell you how I feel. And you said yes! That day, our friendship blossomed into something beautiful. It was the beginning of our forever. 🐱💛</p>
+                <div class="timeline-card">
+                    <span class="date">Selamanya</span>
+                    <h3>Dan Seterusnya...</h3>
+                    <p>Perjalanan kita baru dimulai. Masih banyak cerita indah yang akan kita tulis bersama.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="about-section">
-        <div class="about-grid">
-            <div class="about-card">
-                <i class="fas fa-user-tie"></i>
-                <h3>About Faiz</h3>
-                <p>A Japanese Literature student with big dreams. I love researching, learning new languages, and supporting the people I care about. My proudest achievement? Winning that gold medal - and winning your heart. 😊</p>
-            </div>
-
-            <div class="about-card special">
-                <i class="fas fa-heart"></i>
-                <h3>Why I Love Her</h3>
-                <p>Khalida is brilliant, dedicated, and incredibly kind. She's hardworking yet humble, always there to support others. Her smile lights up my day, and her determination inspires me. She's not just my girlfriend - she's my best friend, my study partner, and my greatest blessing. 💛</p>
-            </div>
-
-            <div class="about-card">
-                <i class="fas fa-user-graduate"></i>
-                <h3>About Khalida</h3>
-                <p>A brilliant International Relations student with a passion for counter-narrative research. She's intelligent, caring, and always strives for excellence. Her dedication to her studies and her warm personality make her truly special. ✨</p>
-            </div>
-        </div>
+    <!-- Promises -->
+    <section class="promise-section">
+        <h2>🤞 Janjiku Untukmu</h2>
+        <ul class="promise-list">
+            <li><i class="fas fa-heart"></i> Selalu ada disaat kamu butuh</li>
+            <li><i class="fas fa-heart"></i> Mendengarkan setiap ceritamu</li>
+            <li><i class="fas fa-heart"></i> Membuat kamu tersenyum setiap hari</li>
+            <li><i class="fas fa-heart"></i> Mendukung setiap mimpimu</li>
+            <li><i class="fas fa-heart"></i> Menjadi rumah untukmu kembali</li>
+            <li><i class="fas fa-heart"></i> Mencintaimu tanpa syarat, selamanya</li>
+        </ul>
     </section>
 
-    <section class="values-section">
-        <h2>What Makes Us Special</h2>
-        <div class="values-grid">
-            <div class="value-card">
-                <i class="fas fa-praying-hands"></i>
-                <h4>Faith</h4>
-                <p>We strengthen each other's faith, always praying for each other's success</p>
-            </div>
-            <div class="value-card">
-                <i class="fas fa-hands-helping"></i>
-                <h4>Support</h4>
-                <p>We're always there for each other, through challenges and celebrations</p>
-            </div>
-            <div class="value-card">
-                <i class="fas fa-laugh-beam"></i>
-                <h4>Joy</h4>
-                <p>We find happiness in simple moments together</p>
-            </div>
-            <div class="value-card">
-                <i class="fas fa-brain"></i>
-                <h4>Growth</h4>
-                <p>We push each other to be better versions of ourselves</p>
-            </div>
-            <div class="value-card">
-                <i class="fas fa-comments"></i>
-                <h4>Communication</h4>
-                <p>We can talk about anything and everything</p>
-            </div>
-            <div class="value-card">
-                <i class="fas fa-infinity"></i>
-                <h4>Forever</h4>
-                <p>Our love story is just beginning</p>
-            </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Made with 💛 by Fikri for Khalida</p>
+            <p>Selamanya milikmu • 2025</p>
         </div>
-    </section>
-
-    <footer>
-        <p>Made with 💛 by Faiz for Khalida</p>
-        <p>© 2025 - Forever & Always</p>
     </footer>
 
     <script src="script.js"></script>
