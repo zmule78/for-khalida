@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Love, Khalida 💛</title>
+    <title>For My Love, Khalida </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <canvas id="particleCanvas"></canvas>
@@ -17,10 +17,13 @@
     </audio>
     <button class="music-control" id="musicToggle"><i class="fas fa-music"></i></button>
 
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">F & K 💛</div>
-            <ul class="nav-menu">
+            <div class="logo">F & K </div>
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="about-us.html"><i class="fas fa-heart"></i> About Us</a></li>
                 <li><a href="memories.html"><i class="fas fa-images"></i> Memories</a></li>
@@ -34,84 +37,114 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">For My Love, Khalida 💛</h1>
-            <p class="hero-subtitle">Setiap detik bersamamu adalah keajaiban</p>
-            <div class="countdown-container">
-                <h3>⏰ Kita Sudah Bersama Selama:</h3>
-                <div class="countdown" id="countdown">
-                    <div class="countdown-item"><span id="days">0</span><label>Hari</label></div>
-                    <div class="countdown-item"><span id="hours">0</span><label>Jam</label></div>
-                    <div class="countdown-item"><span id="minutes">0</span><label>Menit</label></div>
-                    <div class="countdown-item"><span id="seconds">0</span><label>Detik</label></div>
-                </div>
-                <p class="countdown-note">Sejak 1 Desember 2025 • Dan akan terus bertambah selamanya 💛</p>
-            </div>
+        <div class="floating-elements">
+            <span class="float-icon">&#10084;</span>
+            <span class="float-icon">&#10047;</span>
+            <span class="float-icon">&#9733;</span>
+            <span class="float-icon">&#10084;</span>
+            <span class="float-icon">&#10047;</span>
+            <span class="float-icon">&#9733;</span>
+            <span class="float-icon">&#10084;</span>
+            <span class="float-icon">&#10047;</span>
         </div>
-    </section>
+        <div class="hero-content fade-in">
+            <div class="hero-badge">With all my love</div>
+            <div class="title-animated">
+                <span class="title-line">For My Love,</span>
+                <span class="title-name" id="typedName"></span>
+            </div>
+            <p class="tagline"><i class="fas fa-heart"></i> Setiap detik bersamamu adalah keajaiban <i class="fas fa-heart"></i></p>
+        </div>
 
-    <!-- Daily Quote -->
-    <section class="daily-quote">
-        <div class="quote-card">
-            <i class="fas fa-quote-left" style="font-size:2em; color:#FFD700; margin-bottom:16px;"></i>
-            <p id="dailyQuote" class="quote-text">Loading quote...</p>
-            <p id="quoteAuthor" class="quote-author"></p>
+        <!-- Countdown -->
+        <div class="countdown-container glass-card fade-in">
+            <div class="countdown-header">
+                <i class="fas fa-clock"></i>
+                <h3>Kita Sudah Bersama Selama:</h3>
+            </div>
+            <div class="countdown">
+                <div class="time-box">
+                    <div class="time-flip"><span class="time" id="days">0</span></div>
+                    <span class="label">Hari</span>
+                </div>
+                <span class="time-separator">:</span>
+                <div class="time-box">
+                    <div class="time-flip"><span class="time" id="hours">0</span></div>
+                    <span class="label">Jam</span>
+                </div>
+                <span class="time-separator">:</span>
+                <div class="time-box">
+                    <div class="time-flip"><span class="time" id="minutes">0</span></div>
+                    <span class="label">Menit</span>
+                </div>
+                <span class="time-separator">:</span>
+                <div class="time-box">
+                    <div class="time-flip"><span class="time" id="seconds">0</span></div>
+                    <span class="label">Detik</span>
+                </div>
+            </div>
+            <p class="countdown-note">Sejak 1 Desember 2025 &bull; Dan akan terus bertambah selamanya </p>
+        </div>
+
+        <!-- Daily Quote -->
+        <div class="daily-quote glass-card fade-in">
+            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+            <p id="quote-text">Memuat kata-kata cinta...</p>
+            <p class="quote-author" id="quote-author"></p>
         </div>
     </section>
 
     <!-- Explore Section -->
-    <section class="explore-section" style="max-width:900px; margin:0 auto; padding:60px 20px;">
-        <h2 style="text-align:center; color:#B8860B; font-size:2em; margin-bottom:30px;">✨ Jelajahi Website Kita ✨</h2>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
-            <a href="about-us.html" style="text-decoration:none;">
-                <div class="card" style="background:rgba(255,248,220,0.95); border-radius:16px; padding:24px; text-align:center; border:1px solid rgba(255,215,0,0.2); transition:transform 0.3s;">
-                    <i class="fas fa-heart" style="font-size:2em; color:#FFD700; margin-bottom:12px;"></i>
-                    <h3 style="color:#B8860B;">Cerita Kita</h3>
-                    <p style="color:#666; font-size:0.9em;">Perjalanan cinta kita berdua</p>
-                </div>
+    <section class="stats">
+        <div class="stats-title fade-in">
+            <h2>Jelajahi Website Kita</h2>
+        </div>
+        <div class="stats-grid">
+            <a href="about-us.html" class="stat-item fade-in">
+                <div class="stat-icon"><i class="fas fa-heart"></i></div>
+                <h3>Cerita Kita</h3>
+                <p>Perjalanan cinta kita berdua</p>
             </a>
-            <a href="memories.html" style="text-decoration:none;">
-                <div class="card" style="background:rgba(255,248,220,0.95); border-radius:16px; padding:24px; text-align:center; border:1px solid rgba(255,215,0,0.2); transition:transform 0.3s;">
-                    <i class="fas fa-images" style="font-size:2em; color:#FFD700; margin-bottom:12px;"></i>
-                    <h3 style="color:#B8860B;">Kenangan</h3>
-                    <p style="color:#666; font-size:0.9em;">Foto & momen berharga</p>
-                </div>
+            <a href="memories.html" class="stat-item fade-in">
+                <div class="stat-icon"><i class="fas fa-camera-retro"></i></div>
+                <h3>Kenangan</h3>
+                <p>Foto & momen berharga</p>
             </a>
-            <a href="messages.html" style="text-decoration:none;">
-                <div class="card" style="background:rgba(255,248,220,0.95); border-radius:16px; padding:24px; text-align:center; border:1px solid rgba(255,215,0,0.2); transition:transform 0.3s;">
-                    <i class="fas fa-envelope" style="font-size:2em; color:#FFD700; margin-bottom:12px;"></i>
-                    <h3 style="color:#B8860B;">Pesan Cinta</h3>
-                    <p style="color:#666; font-size:0.9em;">Surat & kata-kata manis</p>
-                </div>
+            <a href="messages.html" class="stat-item fade-in">
+                <div class="stat-icon"><i class="fas fa-envelope-open-text"></i></div>
+                <h3>Pesan Cinta</h3>
+                <p>Surat & kata-kata manis</p>
             </a>
-            <a href="favorites.html" style="text-decoration:none;">
-                <div class="card" style="background:rgba(255,248,220,0.95); border-radius:16px; padding:24px; text-align:center; border:1px solid rgba(255,215,0,0.2); transition:transform 0.3s;">
-                    <i class="fas fa-star" style="font-size:2em; color:#FFD700; margin-bottom:12px;"></i>
-                    <h3 style="color:#B8860B;">Favorit Kamu</h3>
-                    <p style="color:#666; font-size:0.9em;">Hal-hal yang kamu suka</p>
-                </div>
+            <a href="favorites.html" class="stat-item fade-in">
+                <div class="stat-icon"><i class="fas fa-star"></i></div>
+                <h3>Favorit Kamu</h3>
+                <p>Hal-hal yang kamu suka</p>
             </a>
-            <a href="game.html" style="text-decoration:none;">
-                <div class="card" style="background:rgba(255,248,220,0.95); border-radius:16px; padding:24px; text-align:center; border:1px solid rgba(255,215,0,0.2); transition:transform 0.3s;">
-                    <i class="fas fa-gamepad" style="font-size:2em; color:#FFD700; margin-bottom:12px;"></i>
-                    <h3 style="color:#B8860B;">Love Games</h3>
-                    <p style="color:#666; font-size:0.9em;">Main bareng yuk!</p>
-                </div>
+            <a href="game.html" class="stat-item fade-in">
+                <div class="stat-icon"><i class="fas fa-gamepad"></i></div>
+                <h3>Love Games</h3>
+                <p>Main bareng yuk!</p>
             </a>
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <p>Made with 💛 by Fikri for Khalida</p>
-            <p>Selamanya milikmu • 2025</p>
-            <div style="margin-top:16px;">
-                <a href="about-us.html" style="color:#FFD700; margin:0 8px;"><i class="fas fa-heart"></i></a>
-                <a href="memories.html" style="color:#FFD700; margin:0 8px;"><i class="fas fa-images"></i></a>
-                <a href="messages.html" style="color:#FFD700; margin:0 8px;"><i class="fas fa-envelope"></i></a>
-                <a href="favorites.html" style="color:#FFD700; margin:0 8px;"><i class="fas fa-star"></i></a>
-                <a href="game.html" style="color:#FFD700; margin:0 8px;"><i class="fas fa-gamepad"></i></a>
-            </div>
+    <!-- Scroll to top -->
+    <button class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+
+    <footer>
+        <div class="footer-hearts">
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+        </div>
+        <p class="footer-main">Made with <span class="beating-heart">&#10084;</span> by Fikri for Khalida</p>
+        <p class="footer-sub">Selamanya milikmu &bull; 2025</p>
+        <div style="margin-top:1rem;display:flex;gap:1rem;justify-content:center">
+            <a href="about-us.html" style="color:var(--primary)"><i class="fas fa-heart"></i></a>
+            <a href="memories.html" style="color:var(--primary)"><i class="fas fa-images"></i></a>
+            <a href="messages.html" style="color:var(--primary)"><i class="fas fa-envelope"></i></a>
+            <a href="favorites.html" style="color:var(--primary)"><i class="fas fa-star"></i></a>
+            <a href="game.html" style="color:var(--primary)"><i class="fas fa-gamepad"></i></a>
         </div>
     </footer>
 
